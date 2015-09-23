@@ -1,0 +1,39 @@
+.stopwatch {
+  width: 400px;
+  height: 400px;
+  border-radius: 25%;
+  background-color: hotpink;
+  color: #000;
+  position: relative;
+  font-family: 'arial'
+}
+
+.timer {
+  width: 80%;
+  height: 100px;
+  background-color: #fff;
+  margin: 0 auto;
+  margin-top: 150px;
+  margin-left: 10%;
+  position: absolute;
+  border-radius: 1%;
+  font-size: 100px;
+  text-align: center;
+}
+
+.controls {
+  width: 400px;
+  text-align: center;
+  margin-top: 75px;
+  position: absolute;
+}
+
+.start-btn, .stop-btn, .reset-btn {
+  background-color: #fff;
+  padding: 10px;
+  margin: 10px;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: 2px solid lightgray;
+
+}
