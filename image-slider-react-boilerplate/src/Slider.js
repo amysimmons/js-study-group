@@ -26,11 +26,21 @@ var Slider = React.createClass({
 		};
 	},
 	moveLeft: function(){
-		var currentImage = this.state.currentImage;
-		var previousImage = this.state.previousImage;
-
-
 		console.log('moving left');
+
+		var images = this.state.images;
+		var currentImage = this.state.currentImage;
+		var nextImage = this.state.nextImage;
+
+		if (currentImage === 0){
+			nextImage = images.length -1;
+		}
+		else {
+			nextImage = Math.abs(currentImage - 1);
+		}
+
+		currentImage = nextImage;
+		this.setState({currentImage: currentImage, nextImage: nextImage});
 	},
 	moveRight: function(){
 		console.log('moving right');
@@ -45,7 +55,7 @@ var Slider = React.createClass({
 		else {
 			nextImage = currentImage + 1;
 		}
-
+		
 		currentImage = nextImage;
 		this.setState({currentImage: currentImage, nextImage: nextImage});
 	},
