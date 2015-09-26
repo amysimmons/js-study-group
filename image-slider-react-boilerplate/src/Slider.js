@@ -1,42 +1,8 @@
-var ImageFrame = React.createClass({
-	render: function(){
-		var images = this.props.images;
-		return (
-			<div className="image-frame">
-				<div className="image">
-					{images}
-				</div>
-			</div>
-		)
-	}
-});
-
-var ArrowLeftFrame = React.createClass({
-	render: function(){
-		return (
-			<div className="arrow-left arrow" onClick={this.props.moveLeft}></div>
-		)
-	}
-});
-
-var ArrowRightFrame = React.createClass({
-	render: function(){
-		return (
-			<div className="arrow-right arrow" onClick={this.props.moveRight}></div>
-		)
-	}
-});
-
-var SelectionDotsFrame = React.createClass({
-	render: function(){
-		var dots = [];
-		return(
-			<div className="selection-dots">
-				{dots}
-			</div>
-		)
-	}
-})
+import React from 'react';
+import ImageFrame from './ImageFrame';
+import ArrowRightFrame from './ArrowRightFrame';
+import ArrowLeftFrame from './ArrowLeftFrame';
+import ImageSelectors from './ImageSelectors';
 
 var Slider = React.createClass({
 	getInitialState: function(){
@@ -78,23 +44,17 @@ var Slider = React.createClass({
 
 	},
 	render: function(){
-		///
 		return (
 			<div className="slider">
 				<ImageFrame images={this.state.images}/>
-				<ArrowRightFrame
-				moveRight={this.moveRight}/>
-				<ArrowLeftFrame
-				moveLeft={this.moveLeft}/>
-				<SelectionDotsFrame
-				selectSide={this.selectImage}/>
+				<ArrowRightFrame moveRight={this.moveRight}/>
+				<ArrowLeftFrame moveLeft={this.moveLeft}/>
+				<ImageSelectors selectSide={this.selectImage}/>
 			</div>
 		)
 	}
 });
 
-React.render(
-	<Slider />,
-	document.getElementById('container')
-)
+module.exports = Slider;
+
 

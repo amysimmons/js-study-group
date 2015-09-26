@@ -33,7 +33,7 @@
 	height: 0; 
 	border-top: 40px solid transparent;
 	border-bottom: 40px solid transparent; 
-	border-right: 40px solid #000;
+	border-right: 40px solid hotpink;
 	display: block;
 }
 
@@ -42,6 +42,6 @@
 	height: 0; 
 	border-top: 40px solid transparent;
 	border-bottom: 40px solid transparent;
-	border-left: 40px solid #000;
+	border-left: 40px solid hotpink;
 	display: block;
 }
