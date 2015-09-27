@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react/addons';
 import ImageFrame from './ImageFrame';
 import ArrowRightFrame from './ArrowRightFrame';
 import ArrowLeftFrame from './ArrowLeftFrame';
@@ -16,7 +16,7 @@ var Slider = React.createClass({
 
 		for (var i = 0; i < imageUrls.length; i++) {
 			var imageUrl = imageUrls[i];
-			images.push(<img className={i} src={imageUrl}/>)
+			images.push(<img className={i} src={imageUrl} key={this.props.imageUrl}/>)
 		};
 
 		return{
@@ -26,8 +26,6 @@ var Slider = React.createClass({
 		};
 	},
 	moveLeft: function(){
-		console.log('moving left');
-
 		var images = this.state.images;
 		var currentImage = this.state.currentImage;
 		var nextImage = this.state.nextImage;
@@ -43,8 +41,6 @@ var Slider = React.createClass({
 		this.setState({currentImage: currentImage, nextImage: nextImage});
 	},
 	moveRight: function(){
-		console.log('moving right');
-
 		var images = this.state.images;
 		var currentImage = this.state.currentImage;
 		var nextImage = this.state.nextImage;
@@ -55,12 +51,20 @@ var Slider = React.createClass({
 		else {
 			nextImage = currentImage + 1;
 		}
-		
+
 		currentImage = nextImage;
 		this.setState({currentImage: currentImage, nextImage: nextImage});
 	},
-	selectImage: function(){
+	selectImage: function(clickedImage){
+		var images = this.state.images;
+		var currentImage = this.state.currentImage;
+		var selectedImage = clickedImage;
 
+		currentImage = selectedImage;
+
+		images[selectedImage];
+
+		this.setState({currentImage: currentImage});
 	},
 	render: function(){
 		var images = this.state.images,
@@ -69,13 +73,18 @@ var Slider = React.createClass({
 
 		return (
 			<div className="slider">
-				<ImageFrame images={images}
-				currentImage={currentImage}
-				nextImage={nextImage}/>
+				<ImageFrame 
+					images={images}
+					currentImage={currentImage}
+					nextImage={nextImage}/>
 				<ArrowRightFrame 
 					moveRight={this.moveRight}/>
-				<ArrowLeftFrame moveLeft={this.moveLeft}/>
-				<ImageSelectors selectSide={this.selectImage}/>
+				<ArrowLeftFrame 
+					moveLeft={this.moveLeft}/>
+				<ImageSelectors 
+					selectImage={this.selectImage}
+					images={images}
+					currentImage={currentImage}/>
 			</div>
 		)
 	}

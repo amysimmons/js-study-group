@@ -45,3 +45,35 @@
 	border-left: 40px solid hotpink;
 	display: block;
 }
+
+.selector {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: grey;
+	display: inline-block;
+	cursor: pointer;
+	margin: 10px;
+}
+
+.selection-dots .selected {
+	background-color: hotpink;
+}
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 2s ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
