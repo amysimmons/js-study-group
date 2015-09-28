@@ -76,7 +76,8 @@ var Slider = React.createClass({
 				<ImageFrame 
 					images={images}
 					currentImage={currentImage}
-					nextImage={nextImage}/>
+					nextImage={nextImage}
+					moveRight={this.moveRight}/>
 				<ArrowRightFrame 
 					moveRight={this.moveRight}/>
 				<ArrowLeftFrame 

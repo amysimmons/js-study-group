@@ -3,6 +3,10 @@ import React from 'react/addons';
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var ImageFrame = React.createClass({
+	componentDidMount: function(){
+		var moveRight = this.props.moveRight;
+		setInterval(moveRight, 4000);
+	},
 	render: function(){
 		var images = this.props.images;
 		var currentImage = this.props.currentImage;
