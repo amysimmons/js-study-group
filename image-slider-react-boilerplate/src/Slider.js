@@ -16,7 +16,7 @@ var Slider = React.createClass({
 
 		for (var i = 0; i < imageUrls.length; i++) {
 			var imageUrl = imageUrls[i];
-			images.push(<img className={i} src={imageUrl} key={this.props.imageUrl}/>)
+			images.push(<img className={i} src={imageUrl} key={imageUrl}/>)
 		};
 
 		return{
@@ -78,14 +78,16 @@ var Slider = React.createClass({
 					currentImage={currentImage}
 					nextImage={nextImage}
 					moveRight={this.moveRight}/>
-				<ArrowRightFrame 
-					moveRight={this.moveRight}/>
-				<ArrowLeftFrame 
-					moveLeft={this.moveLeft}/>
-				<ImageSelectors 
-					selectImage={this.selectImage}
-					images={images}
-					currentImage={currentImage}/>
+				<div className="controls">
+					<ArrowLeftFrame 
+						moveLeft={this.moveLeft}/>
+					<ArrowRightFrame 
+						moveRight={this.moveRight}/>
+					<ImageSelectors 
+						selectImage={this.selectImage}
+						images={images}
+						currentImage={currentImage}/>
+				</div>
 			</div>
 		)
 	}

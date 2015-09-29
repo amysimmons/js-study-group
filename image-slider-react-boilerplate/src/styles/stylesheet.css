@@ -1,31 +1,40 @@
-/*
-#container {
-	width: 90%;
-	margin: 0 auto;
+#container{
+	margin-top: 100px;
 }
-*/
 
 .slider {
-	width: 1000px;
-	height: 700px;
+	width: 70%;
+	height: 400px;
 	margin: 0 auto;
-	poition: relative;
 }
 
 .image-frame {
 	width: 100%;
-	height: 70%;
-	position: relative;
+	margin: 0 auto;
 }
+
 .image {
 	width: 100%;
 	height:100%;
+	overflow: hidden;
+	position: relative;
 }
 
 .slider img {
-	width: auto;
-	height:100%;
+	width: 100%;
 	position: absolute;
+}
+
+.slider img.hidden {
+	display: none;
+}
+
+.slider img.visible {
+	display: visible;
+}
+
+.controls {
+	width: 100%;
 }
 
 .arrow-left {
@@ -33,8 +42,10 @@
 	height: 0; 
 	border-top: 40px solid transparent;
 	border-bottom: 40px solid transparent; 
-	border-right: 40px solid hotpink;
-	display: block;
+	border-right: 40px solid #212121;
+	display: inline-block;
+	width: 45%;
+	margin: 1em 0;
 }
 
 .arrow-right {
@@ -42,8 +53,14 @@
 	height: 0; 
 	border-top: 40px solid transparent;
 	border-bottom: 40px solid transparent;
-	border-left: 40px solid hotpink;
-	display: block;
+	border-left: 40px solid #212121;
+	display: inline-block;
+	margin: 1em 0 1em 1em;
+
+}
+
+.selection-dots {
+	text-align: center;
 }
 
 .selector {
@@ -57,23 +74,41 @@
 }
 
 .selection-dots .selected {
-	background-color: hotpink;
+	background-color: #212121;
 }
 
-.example-enter {
+/*
+.carousel-enter {
   opacity: 0.01;
 }
 
-.example-enter.example-enter-active {
+.carousel-enter.carousel-enter-active {
   opacity: 1;
   transition: opacity 2s ease-in;
 }
 
-.example-leave {
-  opacity: 1;
+.carousel-leave {
+  opacity: 0.01;
 }
 
-.example-leave.example-leave-active {
-  opacity: 0.01;
+.carousel-leave.carousel-leave-active {
+  opacity: 1;
   transition: opacity .2s ease-in;
+}
+*/
+
+.slider img {
+    left: -700px;
+    -webkit-animation: slide 0.5s forwards;
+    -webkit-animation-delay: 0s;
+    animation: slide 0.5s forwards;
+    animation-delay: 0s;
+}
+
+@-webkit-keyframes slide {
+    100% { left: 0; }
+}
+
+@keyframes slide {
+    100% { left: 0; }
 }
