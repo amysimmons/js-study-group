@@ -22,38 +22,40 @@ var Slider = React.createClass({
 		return{
 			images: images,
 			currentImage: 0,
-			nextImage: null
+			nextImage: 1,
+			previousImage: images.length - 1
 		};
 	},
-	moveLeft: function(){
+	previous: function(){
+		console.log('previous being called');
 		var images = this.state.images;
-		var currentImage = this.state.currentImage;
-		var nextImage = this.state.nextImage;
+		var currentImage = this.state.previousImage;
+		var previousImage = this.state.previousImage;
+		var nextImage = this.state.currentImage;
 
 		if (currentImage === 0){
-			nextImage = images.length -1;
+			previousImage = images.length -1;
 		}
 		else {
-			nextImage = Math.abs(currentImage - 1);
+			previousImage = Math.abs(currentImage - 1);
 		}
 
-		currentImage = nextImage;
-		this.setState({currentImage: currentImage, nextImage: nextImage});
+		this.setState({currentImage: currentImage, previousImage: previousImage, nextImage: nextImage});
 	},
-	moveRight: function(){
+	next: function(){
 		var images = this.state.images;
-		var currentImage = this.state.currentImage;
+		var currentImage = this.state.nextImage;
 		var nextImage = this.state.nextImage;
+		var previousImage = this.state.currentImage;
 
 		if (nextImage >= images.length-1){
 			nextImage = 0;
 		}
 		else {
-			nextImage = currentImage + 1;
+			nextImage = nextImage + 1;
 		}
 
-		currentImage = nextImage;
-		this.setState({currentImage: currentImage, nextImage: nextImage});
+		this.setState({currentImage: currentImage, nextImage: nextImage, previousImage: previousImage});
 	},
 	selectImage: function(clickedImage){
 		var images = this.state.images;
@@ -69,7 +71,8 @@ var Slider = React.createClass({
 	render: function(){
 		var images = this.state.images,
 			currentImage = this.state.currentImage,
-			nextImage = this.state.nextImage
+			nextImage = this.state.nextImage,
+			previousImage = this.state.previousImage
 
 		return (
 			<div className="slider">
@@ -77,12 +80,12 @@ var Slider = React.createClass({
 					images={images}
 					currentImage={currentImage}
 					nextImage={nextImage}
-					moveRight={this.moveRight}/>
+					previousImage={previousImage}/>
 				<div className="controls">
 					<ArrowLeftFrame 
-						moveLeft={this.moveLeft}/>
+						previous={this.previous}/>
 					<ArrowRightFrame 
-						moveRight={this.moveRight}/>
+						next={this.next}/>
 					<ImageSelectors 
 						selectImage={this.selectImage}
 						images={images}

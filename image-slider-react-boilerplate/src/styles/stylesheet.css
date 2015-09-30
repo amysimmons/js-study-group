@@ -11,6 +11,9 @@
 .image-frame {
 	width: 100%;
 	margin: 0 auto;
+	width: 500px;
+    height: 500px;
+    position: relative;
 }
 
 .image {
@@ -18,20 +21,22 @@
 	height:100%;
 	overflow: hidden;
 	position: relative;
+	display: inline-block;
+	position: absolute;
+}
+
+.previous {
+	left: -500px;
+}
+
+.next {
+	left: 500px;
 }
 
 .slider img {
 	width: 100%;
-	position: absolute;
 }
 
-.slider img.hidden {
-	display: none;
-}
-
-.slider img.visible {
-	display: visible;
-}
 
 .controls {
 	width: 100%;
@@ -97,6 +102,9 @@
 }
 */
 
+
+
+/*
 .slider img {
     left: -700px;
     -webkit-animation: slide 0.5s forwards;
@@ -112,3 +120,5 @@
 @keyframes slide {
     100% { left: 0; }
 }
+*/
+
