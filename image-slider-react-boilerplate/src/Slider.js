@@ -60,13 +60,27 @@ var Slider = React.createClass({
 	selectImage: function(clickedImage){
 		var images = this.state.images;
 		var currentImage = this.state.currentImage;
+		var nextImage = this.state.nextImage;
+		var previousImage = this.state.currentImage;
 		var selectedImage = clickedImage;
 
 		currentImage = selectedImage;
 
-		images[selectedImage];
+		if (currentImage >= images.length - 1){
+			nextImage = 0;
+		}
+		else {
+			nextImage = currentImage + 1;
+		}
 
-		this.setState({currentImage: currentImage});
+		if (currentImage == 0){
+			previousImage = images.length -1;
+		}
+		else {
+			previousImage = Math.abs(currentImage - 1);
+		}
+
+		this.setState({currentImage: currentImage, nextImage: nextImage, previousImage: previousImage});
 	},
 	render: function(){
 		var images = this.state.images,

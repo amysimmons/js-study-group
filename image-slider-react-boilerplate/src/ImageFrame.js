@@ -7,17 +7,6 @@ var ImageFrame = React.createClass({
 		var next = this.props.next;	
 		//setInterval(next, 3000);	
 	},
-	componentWillUpdate: function(){
-		var currentImage = this.props.currentImage;
-		var images = this.props.images;
-		var imageToDisplay = images[currentImage];
-	},
-	componentDidUpdate: function(){
-		//do i need this?! 
-		var currentImage = this.props.currentImage;
-		var images = this.props.images;
-		var imageToDisplay = images[currentImage];
-	},
 	render: function(){
 		var images = this.props.images;
 		var currentImage = this.props.currentImage;
@@ -33,20 +22,31 @@ var ImageFrame = React.createClass({
 		
 		return (
 			<div className="image-frame">
-				<ReactCSSTransitionGroup transitionName="carousel" transitionAppear={true}>
+			<div className="image">
+
+			</div>					
+				
 				<div className="image previous">
 					{previousImage}
 				</div>
-				<div className="image">
+				
+				<div className="image current">
 					{imageToDisplay}
 				</div>
+
 				<div className="image next">
 					{nextImage}
 				</div>
-				</ReactCSSTransitionGroup>
+				
 			</div>
+				//<ReactCSSTransitionGroup transitionName="carousel" transitionAppear={true}>
+				//{images}
+			//</ReactCSSTransitionGroup>
+				//<ReactCSSTransitionGroup transitionName="carousel" transitionAppear={true}>
+				//</ReactCSSTransitionGroup>
 		)
 	}
 });
 
 module.exports = ImageFrame;
+
