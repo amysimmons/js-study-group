@@ -11,8 +11,7 @@
 .image-frame {
 	width: 100%;
 	margin: 0 auto;
-	width: 500px;
-    height: 500px;
+    height: 100%;
     position: relative;
 }
 
@@ -147,5 +146,24 @@
 }
 */
 
+
+.slide-gallery {
+	margin-top: 500px;
+}
+
+.slider2 {
+  width: 300px;
+  height: 500px;
+  overflow-x: scroll;
+}
+.slide {
+  float: left;
+  width: 300px;
+  height: 500px;
+}
+
+.holder {
+  width: 300%;
+}
 
 
