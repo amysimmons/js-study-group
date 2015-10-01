@@ -23,8 +23,16 @@ var Slider = React.createClass({
 			images: images,
 			currentImage: 0,
 			nextImage: 1,
-			previousImage: images.length - 1
+			previousImage: images.length - 1,
+			timer: this.setTimer()
 		};
+	},
+	setTimer: function(){
+		return setInterval(this.next, 3000);
+	},
+	resetTimer: function(){
+		clearInterval(this.state.timer);
+		this.setState({timer: this.setTimer()})
 	},
 	previous: function(){
 		console.log('previous being called');
@@ -40,6 +48,7 @@ var Slider = React.createClass({
 			previousImage = Math.abs(currentImage - 1);
 		}
 
+		this.resetTimer();
 		this.setState({currentImage: currentImage, previousImage: previousImage, nextImage: nextImage});
 	},
 	next: function(){
@@ -55,6 +64,7 @@ var Slider = React.createClass({
 			nextImage = nextImage + 1;
 		}
 
+		this.resetTimer();
 		this.setState({currentImage: currentImage, nextImage: nextImage, previousImage: previousImage});
 	},
 	selectImage: function(clickedImage){
@@ -63,7 +73,7 @@ var Slider = React.createClass({
 		var nextImage = this.state.nextImage;
 		var previousImage = this.state.currentImage;
 		var selectedImage = clickedImage;
-
+		
 		currentImage = selectedImage;
 
 		if (currentImage >= images.length - 1){
@@ -80,13 +90,14 @@ var Slider = React.createClass({
 			previousImage = Math.abs(currentImage - 1);
 		}
 
+		this.resetTimer();
 		this.setState({currentImage: currentImage, nextImage: nextImage, previousImage: previousImage});
 	},
 	render: function(){
 		var images = this.state.images,
 			currentImage = this.state.currentImage,
 			nextImage = this.state.nextImage,
-			previousImage = this.state.previousImage
+			previousImage = this.state.previousImage;
 
 		return (
 			<div className="slider">
