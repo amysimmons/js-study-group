@@ -10,9 +10,9 @@ var Slider2 = React.createClass({
 				"http://images7.alphacoders.com/311/311271.jpg",
 				"http://7-themes.com/data_images/out/73/7022411-water-whale-art.jpg",
 				"https://s3-eu-west-1.amazonaws.com/3tags-prod/tag/542d448574cfc/542d44857c54c/original.jpg"
-			]
+			];
 
-		var images = []
+		var images = [];
 
 		for (var i = 0; i < imageUrls.length; i++) {
 			var imageUrl = imageUrls[i];
@@ -23,16 +23,26 @@ var Slider2 = React.createClass({
 			//var next = this.nextImage ? 'next' : '';
 			var imageClases = cx('slide', slideNo, active);
 
-			var imageStyle = {
+			var slideStyle = {
 				backgroundImage: 'url(' + imageUrl + ')',
+				width: '300px',
+				height: '500px',
   				WebkitTransition: 'all', 
   				msTransition: 'all' 
 			}
 
 			images.push(
-				<div className={imageClases} style={imageStyle}>
+				<div className={imageClases} style={slideStyle}>
 				</div>
 			)
+		};
+
+		var trackWidth = 300 * images.length;
+
+		var trackStyles = {
+			width: {trackWidth},
+			left: '',
+			right: ''
 		};
 
 		return{
@@ -42,7 +52,9 @@ var Slider2 = React.createClass({
 			previousImage: images.length - 1,
 			activeImage: this.isActive(),
 			//nextImage: this.isNext(),
-			timer: this.setTimer()
+			timer: this.setTimer(),
+			trackWidth: trackWidth,
+			trackStyles: trackStyles
 		};
 	},
 	setTimer: function(){
@@ -68,6 +80,28 @@ var Slider2 = React.createClass({
 	},
 	previous: function(){
 
+		var trackStyles = this.state.trackStyles;
+		var images = this.state.images;
+
+		trackStyles.left = '-'+(trackStyles.width.trackWidth / images.length)+'%';
+	
+/*
+ var left = 0
+  function frame() {
+    left++  // update parameters
+    trackStyles.left = left + '%' // show frame
+    this.setState({trackStyles: trackStyles});
+    if (left == 100)  // check finish condition
+      clearInterval(id)
+  }
+  var id = setInterval(frame, 10) // draw every 10ms
+*/
+
+
+this.setState({trackStyles: trackStyles});
+
+
+
 		var images = this.state.images;
 		var currentImage = this.state.previousImage;
 		var previousImage = this.state.previousImage;
@@ -86,6 +120,16 @@ var Slider2 = React.createClass({
 		this.setState({currentImage: currentImage, previousImage: previousImage, nextImage: nextImage});
 	},
 	next: function(){
+
+		var trackStyles = this.state.trackStyles;
+		var images = this.state.images;
+
+		//trackStyles.left = "-"(trackStyles.width.trackWidth / images.length)+'%';
+
+	
+		trackStyles.left = '-100%';
+		this.setState({trackStyles: trackStyles});
+		
 
 		var currentImage = this.state.currentImage
 		var activeImage = this.state.activeImage;
@@ -139,26 +183,33 @@ var Slider2 = React.createClass({
 		var images = this.state.images,
 			currentImage = this.state.currentImage,
 			nextImage = this.state.nextImage,
-			previousImage = this.state.previousImage;
+			previousImage = this.state.previousImage,
+			trackWidth = this.state.trackWidth,
+			trackStyles = this.state.trackStyles;
+		
 
 		return (
+			<div className="slider-container">
 			<div className="slider2">
 				<Slider2ImageFrame 
 					images={images}
 					currentImage={currentImage}
 					nextImage={nextImage}
-					previousImage={previousImage}/>
-				<div className="controls">
-					<ArrowLeftFrame 
-						previous={this.previous}/>
-					<ArrowRightFrame 
-						next={this.next}
-						active={this.active}/>
-					<ImageSelectors 
-						selectImage={this.selectImage}
-						images={images}
-						currentImage={currentImage}/>
-				</div>
+					previousImage={previousImage}
+					trackWidth={trackWidth}
+					trackStyles={trackStyles}/>
+			</div>
+			<div className="slider-controls">
+				<ArrowLeftFrame 
+					previous={this.previous}/>
+				<ArrowRightFrame 
+					next={this.next}
+					active={this.active}/>
+				<ImageSelectors 
+					selectImage={this.selectImage}
+					images={images}
+					currentImage={currentImage}/>
+			</div>
 			</div>
 		)
 	}

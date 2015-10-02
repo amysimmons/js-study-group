@@ -1,6 +1,6 @@
 import React from 'react/addons';
-import Slider from './Slider';
-import Slider2 from './Slider2';
+import Slider from './scripts/fade-gallery/Slider';
+import Slider2 from './scripts/slide-gallery/Slider2';
 require("./styles/stylesheet.css");
 
 React.render(<Slider />, document.getElementById('fade-gallery'));

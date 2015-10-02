@@ -8,14 +8,18 @@ var Slider2ImageFrame = React.createClass({
 		var currentImage = this.props.currentImage;
 		var previousImage = this.props.previousImage;
 		var nextImage = this.props.nextImage;
+		var trackWidth = this.props.trackWidth;
+		var trackStyles = this.props.trackStyles;
 
 		var imageToDisplay = images[currentImage];
 
 		previousImage = images[previousImage];
 		nextImage = images[nextImage];
-		
+	
+
+
 		return (
-			<div className="holder">		
+			<div className="track" style={trackStyles}>		
 				{images}
 			</div>
 		)

@@ -2,10 +2,15 @@
 	margin-top: 100px;
 }
 
+.fade-gallery {
+	height: 100%;
+}
+
 .slider {
 	width: 70%;
 	height: 400px;
 	margin: 0 auto;
+	position: relative;
 }
 
 .image-frame {
@@ -38,6 +43,7 @@
 
 .controls {
 	width: 100%;
+	position: absolute;
 }
 
 .arrow-left {
@@ -148,22 +154,69 @@
 
 
 .slide-gallery {
-	margin-top: 500px;
+	height: 100%;
 }
 
 .slider2 {
   width: 300px;
   height: 500px;
-  overflow-x: scroll;
-}
-.slide {
-  float: left;
-  width: 300px;
-  height: 500px;
+  overflow: hidden;
+  margin: 0 auto;
 }
 
-.holder {
+.slide {
+  float: left;
+  /*
+  width: 300px;
+  height: 500px;
+  */
+}
+
+.track {
   width: 300%;
+  height: 100%;
+  position: relative
+}
+
+
+.slider-controls  {
+	width: 100%;
+}
+
+.arrow-left {
+	width: 0; 
+	height: 0; 
+	border-top: 40px solid transparent;
+	border-bottom: 40px solid transparent; 
+	border-right: 40px solid #212121;
+	display: inline-block;
+	width: 45%;
+	margin: 1em 0;
+}
+
+.arrow-right {
+	width: 0; 
+	height: 0; 
+	border-top: 40px solid transparent;
+	border-bottom: 40px solid transparent;
+	border-left: 40px solid #212121;
+	display: inline-block;
+	margin: 1em 0 1em 1em;
+
+}
+
+.selection-dots {
+	text-align: center;
+}
+
+.selector {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: grey;
+	display: inline-block;
+	cursor: pointer;
+	margin: 10px;
 }
 
 
