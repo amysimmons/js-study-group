@@ -16,7 +16,7 @@ var Slider2 = React.createClass({
 
 		for (var i = 0; i < imageUrls.length; i++) {
 			var imageUrl = imageUrls[i];
-			
+
 			var cx = React.addons.classSet;
 			var slideNo = "slide-"+i;
 			var active = this.activeImage ? 'active' : '';
@@ -27,8 +27,8 @@ var Slider2 = React.createClass({
 				backgroundImage: 'url(' + imageUrl + ')',
 				width: '300px',
 				height: '500px',
-  				WebkitTransition: 'all', 
-  				msTransition: 'all' 
+  				WebkitTransition: 'all',
+  				msTransition: 'all'
 			}
 
 			images.push(
@@ -38,11 +38,11 @@ var Slider2 = React.createClass({
 		};
 
 		var trackWidth = 300 * images.length;
+		var leftPosition = 0;
 
 		var trackStyles = {
 			width: {trackWidth},
-			left: '',
-			right: ''
+			left: {leftPosition}
 		};
 
 		return{
@@ -54,6 +54,7 @@ var Slider2 = React.createClass({
 			//nextImage: this.isNext(),
 			timer: this.setTimer(),
 			trackWidth: trackWidth,
+			leftPosition: leftPosition,
 			trackStyles: trackStyles
 		};
 	},
@@ -82,9 +83,20 @@ var Slider2 = React.createClass({
 
 		var trackStyles = this.state.trackStyles;
 		var images = this.state.images;
+		var leftPosition = this.state.leftPosition;
+		var trackWidth = this.state.trackWidth;
 
-		trackStyles.left = '-'+(trackStyles.width.trackWidth / images.length)+'%';
-	
+		if (Math.abs(leftPosition) >= 100*(images.length - 1)){
+			leftPosition = 0;
+			trackStyles.left = leftPosition;
+		}
+		else {
+			leftPosition = leftPosition-100;
+			trackStyles.left = leftPosition+'%';
+		}
+
+		this.setState({leftPosition: leftPosition, trackStyles: trackStyles});
+
 /*
  var left = 0
   function frame() {
@@ -97,50 +109,48 @@ var Slider2 = React.createClass({
   var id = setInterval(frame, 10) // draw every 10ms
 */
 
-
-this.setState({trackStyles: trackStyles});
-
-
-
-		var images = this.state.images;
-		var currentImage = this.state.previousImage;
-		var previousImage = this.state.previousImage;
-		var nextImage = this.state.currentImage;
-		var active = this.state.active;
-
-		if (currentImage === 0){
-			previousImage = images.length -1;
-		}
-		else {
-			previousImage = Math.abs(currentImage - 1);
-		}
-
-		//this.resetTimer();
-		active = this.isActive(currentImage);
-		this.setState({currentImage: currentImage, previousImage: previousImage, nextImage: nextImage});
 	},
 	next: function(){
 
 		var trackStyles = this.state.trackStyles;
 		var images = this.state.images;
+		var leftPosition = this.state.leftPosition;
+		var trackWidth = this.state.trackWidth;
 
-		//trackStyles.left = "-"(trackStyles.width.trackWidth / images.length)+'%';
+		if (leftPosition >= 100*(images.length - 1)){
+			leftPosition = 0;
+			trackStyles.left = leftPosition;
+		}
+		else {
+			leftPosition = leftPosition+100;
+			trackStyles.left = '-'+leftPosition+'%';
+		}
 
-	
-		trackStyles.left = '-100%';
-		this.setState({trackStyles: trackStyles});
-		
+		this.setState({leftPosition: leftPosition, trackStyles: trackStyles});
+
+		/*
+ var left = 0
+  function frame() {
+    left++  // update parameters
+    trackStyles.left = left + '%' // show frame
+    this.setState({trackStyles: trackStyles});
+    if (left == 100)  // check finish condition
+      clearInterval(id)
+  }
+  var id = setInterval(frame, 10) // draw every 10ms
+*/
+
 
 		var currentImage = this.state.currentImage
 		var activeImage = this.state.activeImage;
 		activeImage = this.isActive(currentImage);
 
 		var images = this.state.images;
-		
+
 		currentImage = this.state.nextImage;
 		var nextImage = this.state.nextImage;
 		var previousImage = this.state.currentImage;
-	
+
 
 		if (nextImage >= images.length-1){
 			nextImage = 0;
@@ -159,7 +169,7 @@ this.setState({trackStyles: trackStyles});
 		var nextImage = this.state.nextImage;
 		var previousImage = this.state.currentImage;
 		var selectedImage = clickedImage;
-		
+
 		currentImage = selectedImage;
 
 		if (currentImage >= images.length - 1){
@@ -185,27 +195,29 @@ this.setState({trackStyles: trackStyles});
 			nextImage = this.state.nextImage,
 			previousImage = this.state.previousImage,
 			trackWidth = this.state.trackWidth,
+			leftPosition = this.state.leftPosition,
 			trackStyles = this.state.trackStyles;
-		
+
 
 		return (
 			<div className="slider-container">
 			<div className="slider2">
-				<Slider2ImageFrame 
+				<Slider2ImageFrame
 					images={images}
 					currentImage={currentImage}
 					nextImage={nextImage}
 					previousImage={previousImage}
 					trackWidth={trackWidth}
+					leftPosition={leftPosition}
 					trackStyles={trackStyles}/>
 			</div>
 			<div className="slider-controls">
-				<ArrowLeftFrame 
+				<ArrowLeftFrame
 					previous={this.previous}/>
-				<ArrowRightFrame 
+				<ArrowRightFrame
 					next={this.next}
 					active={this.active}/>
-				<ImageSelectors 
+				<ImageSelectors
 					selectImage={this.selectImage}
 					images={images}
 					currentImage={currentImage}/>
