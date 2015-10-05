@@ -1,7 +1,5 @@
 import React from 'react/addons';
 
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
 var Slider2ImageFrame = React.createClass({
 	render: function(){
 		var images = this.props.images;

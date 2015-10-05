@@ -86,12 +86,16 @@
 	background-color: #212121;
 }
 
+/*
+slide gallery styles begin
+*/
+
 .slide-gallery {
 	height: 100%;
 }
 
 .slider2 {
-  width: 1000px;
+  width: 800px;
   height: 400px;
   overflow: hidden;
   margin: 0 auto;
