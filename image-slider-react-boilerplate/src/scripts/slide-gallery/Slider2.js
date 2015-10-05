@@ -20,15 +20,14 @@ var Slider2 = React.createClass({
 			var cx = React.addons.classSet;
 			var slideNo = "slide-"+i;
 			var active = this.activeImage ? 'active' : '';
-			//var next = this.nextImage ? 'next' : '';
 			var imageClases = cx('slide', slideNo, active);
 
 			var slideStyle = {
 				backgroundImage: 'url(' + imageUrl + ')',
+				backgroundRepeat: 'no-repeat',
+    		backgroundPosition: 'center center',
 				width: '1000px',
-				height: '100%',
-  				WebkitTransition: 'all',
-  				msTransition: 'all'
+				height: '100%'
 			}
 
 			images.push(
@@ -49,28 +48,10 @@ var Slider2 = React.createClass({
 			images: images,
 			currentImage: 0,
 			nextImage: 1,
-			previousImage: images.length - 1,
-			activeImage: this.isActive(),
-			//nextImage: this.isNext(),
-			timer: this.setTimer(),
 			trackWidth: trackWidth,
 			leftPosition: leftPosition,
 			trackStyles: trackStyles
 		};
-	}
-	isActive: function(img){
-		if (this.state !=  null){
-			if (img == this.state.currentImage) {
-				var activeImage = true;
-				this.setState({activeImage: activeImage})
-			}
-		}
-		else {
-		 	return false;
-		}
-	},
-	isNext: function(img, direction){
-		return false;
 	},
 	previous: function(){
 
@@ -81,8 +62,6 @@ var Slider2 = React.createClass({
 
 		if (leftPosition == 0){
 			var currentLeftPosition = leftPosition;
-			trackStyles.left = '-'+leftPosition+'%';
-
 			var _this = this;
 
 			this.incrementer = setInterval(function(){
@@ -96,11 +75,8 @@ var Slider2 = React.createClass({
 					break;
 				}
 			}, 2);
-		}
-		else {
+		} else {
 			var currentLeftPosition = leftPosition;
-			trackStyles.left = '-'+leftPosition+'%';
-
 			var _this = this;
 
 			this.incrementer = setInterval(function(){
@@ -114,11 +90,10 @@ var Slider2 = React.createClass({
 					break;
 				}
 			}, 2);
-
 		}
-
 	},
 	next: function(){
+
 		var trackStyles = this.state.trackStyles;
 		var images = this.state.images;
 		var leftPosition = this.state.leftPosition;
@@ -127,8 +102,6 @@ var Slider2 = React.createClass({
 		if (leftPosition >= 100*(images.length - 1)){
 
 			var currentLeftPosition = leftPosition;
-			trackStyles.left = '-'+leftPosition+'%';
-
 			var _this = this;
 
 			this.incrementer = setInterval(function(){
@@ -143,12 +116,8 @@ var Slider2 = React.createClass({
 				}
 			}, 2);
 
-
-		}else {
-
+		} else {
 			var currentLeftPosition = leftPosition;
-			trackStyles.left = '-'+leftPosition+'%';
-
 			var _this = this;
 
 			this.incrementer = setInterval(function(){
@@ -163,6 +132,7 @@ var Slider2 = React.createClass({
 				}
 			}, 2);
 		}
+
 	},
 	selectImage: function(clickedImage){
 		var images = this.state.images;
@@ -187,7 +157,6 @@ var Slider2 = React.createClass({
 			previousImage = Math.abs(currentImage - 1);
 		}
 
-		this.resetTimer();
 		this.setState({currentImage: currentImage, nextImage: nextImage, previousImage: previousImage});
 	},
 	render: function(){
@@ -199,31 +168,28 @@ var Slider2 = React.createClass({
 			leftPosition = this.state.leftPosition,
 			trackStyles = this.state.trackStyles;
 
-
 		return (
 			<div className="slider-container">
-			<div className="slider2">
-				<Slider2ImageFrame
-					images={images}
-					currentImage={currentImage}
-					nextImage={nextImage}
-					previousImage={previousImage}
-					trackWidth={trackWidth}
-					leftPosition={leftPosition}
-					trackStyles={trackStyles}/>
-			</div>
-			<div className="slider-controls">
-				<ArrowLeftFrame
-					previous={this.previous}/>
-				<ArrowRightFrame
-					next={this.next}
-					active={this.active}
-					moveLeft={this.moveLeft}/>
-				<ImageSelectors
-					selectImage={this.selectImage}
-					images={images}
-					currentImage={currentImage}/>
-			</div>
+				<div className="slider2">
+					<Slider2ImageFrame
+						images={images}
+						currentImage={currentImage}
+						nextImage={nextImage}
+						previousImage={previousImage}
+						trackWidth={trackWidth}
+						leftPosition={leftPosition}
+						trackStyles={trackStyles}/>
+				</div>
+				<div className="slider-controls">
+					<ArrowLeftFrame
+						previous={this.previous}/>
+					<ArrowRightFrame
+						next={this.next}/>
+					<ImageSelectors
+						selectImage={this.selectImage}
+						images={images}
+						currentImage={currentImage}/>
+				</div>
 			</div>
 		)
 	}
