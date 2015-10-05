@@ -47,10 +47,10 @@
 }
 
 .arrow-left {
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	border-top: 40px solid transparent;
-	border-bottom: 40px solid transparent; 
+	border-bottom: 40px solid transparent;
 	border-right: 40px solid #212121;
 	display: inline-block;
 	width: 45%;
@@ -58,8 +58,8 @@
 }
 
 .arrow-right {
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	border-top: 40px solid transparent;
 	border-bottom: 40px solid transparent;
 	border-left: 40px solid #212121;
@@ -158,7 +158,7 @@
 }
 
 .slider2 {
-  width: 300px;
+  width: 1000px;
   height: 500px;
   overflow: hidden;
   margin: 0 auto;
@@ -184,10 +184,10 @@
 }
 
 .arrow-left {
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	border-top: 40px solid transparent;
-	border-bottom: 40px solid transparent; 
+	border-bottom: 40px solid transparent;
 	border-right: 40px solid #212121;
 	display: inline-block;
 	width: 45%;
@@ -195,8 +195,8 @@
 }
 
 .arrow-right {
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	border-top: 40px solid transparent;
 	border-bottom: 40px solid transparent;
 	border-left: 40px solid #212121;
