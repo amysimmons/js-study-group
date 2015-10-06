@@ -4,59 +4,89 @@ import OutputView from './OutputView';
 
 var Calculator = React.createClass({
   getInitialState: function(){
-    var firstNumber,
-        secondNumber,
+    var value,
+        nextValue,
+        operation,
         result
 
     return{
-      firstNumber: null,
-      secondNumber: null,
+      value: 0,
+      nextValue: 0,
+      operation: null,
       result: 0
     };
   },
-  add: function(){
-    var images = this.state.images;
-    var leftPosition = this.state.leftPosition;
-    var trackStyles = this.state.trackStyles;
+  add: function(value, nextValue){
+    var result = this.state.result;
+    result = value + nextValue;
+    return result;
+  },
+  subtract: function(value, nextValue){
+    var result = this.state.result;
+    result = value - nextValue;
+    return result;
+  },
+  divide: function(value, nextValue){
+    var result = this.state.result;
+    result = value / nextValue;
+    return result;
+  },
+  multiply: function(value, nextValue){
+    var result = this.state.result;
+    result = value * nextValue;
+    return result;
+  },
+  setValue: function(){
 
   },
-  subtract: function(){
-    var images = this.state.images;
-    var leftPosition = this.state.leftPosition;
-    var trackStyles = this.state.trackStyles;
+  setNextValue: function(){
 
   },
-  divide: function(){
+  setOperation: function(){
 
   },
-  multiply: function(){
+  getResult: function(value, nextValue, operation){
+    var value = this.state.value,
+        nextValue = this.state.nextValue,
+        operation = this.state.operation;
+        result = this.state.result;
 
-  },
-  setFirstNumber: function(){
-
-  },
-  setSecondNumber: function(){
-
-  },
-  getResult: function(){
-
+    switch(operation) {
+        case "+":
+            result = this.add();
+            break;
+        case "-":
+            result = this.subtract();
+            break;
+        case "/":
+            result = this.divide();
+            break;
+        case "x":
+            result = this.multiply();
+            break;
+    }
+    console.log(result);
+    this.setState({result: result});
   },
   render: function(){
-    var firstNumber = this.state.firstNumber,
-        secondNumber = this.state.secondNumber,
+    var value = this.state.value,
+        nextValue = this.state.nextValue,
         result = this.state.result;
 
     return (
       <div className="calculator">
           <OutputView
-            firstNumber={firstNumber}
-            secondNumber={secondNumber}
+            value={value}
+            nextValue={nextValue}
             result={result}
-            showResult={this.showResult}/>
+            showResult={this.showResult}
+            setValue={this.setOperation}
+            setNextValue={this.setNextValue}
+            setOperation={this.setOperation}/>
 
           <InputButtons
-            firstNumber={firstNumber}
-            secondNumber={secondNumber}
+            value={value}
+            nextValue={nextValue}
             result={result}/>
       </div>
     )

@@ -59,7 +59,7 @@ var InputButtons = React.createClass({
         <div className="input number decimal">
           <span>.</span>
         </div>
-        <div className="input operation equals">
+        <div className="input operation equals" onClick={this.props.getResult}>
           <span>=</span>
         </div>
       </div>
