@@ -1,7 +1,6 @@
 import React from 'react/addons';
 
 var InputButtons = React.createClass({
-
   render: function(){
     return (
       <div className="input-buttons">
@@ -41,16 +40,16 @@ var InputButtons = React.createClass({
         <div className="input operation minus">
           <span>-</span>
         </div>
-        <div className="input number 1">
+        <div className="input number 1" onClick={this.props.setValue.bind(this)}>
           <span>1</span>
         </div>
-        <div className="input number 2">
+        <div className="input number 2" onClick={this.props.setValue}>
           <span>2</span>
         </div>
         <div className="input number 3">
           <span>3</span>
         </div>
-        <div className="input operation plus">
+        <div className="input operation plus" onClick={this.props.setOperation.bind(this)}>
           <span>+</span>
         </div>
         <div className="input number zero 0">

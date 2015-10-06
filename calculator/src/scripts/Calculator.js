@@ -37,13 +37,13 @@ var Calculator = React.createClass({
     return result;
   },
   setValue: function(){
-
+    debugger
   },
   setNextValue: function(){
 
   },
   setOperation: function(){
-
+    //debugger
   },
   getResult: function(value, nextValue, operation){
     var value = this.state.value,
@@ -80,14 +80,18 @@ var Calculator = React.createClass({
             nextValue={nextValue}
             result={result}
             showResult={this.showResult}
-            setValue={this.setOperation}
+            setValue={this.setValue}
             setNextValue={this.setNextValue}
             setOperation={this.setOperation}/>
 
           <InputButtons
             value={value}
             nextValue={nextValue}
-            result={result}/>
+            result={result}
+            showResult={this.showResult}
+            setValue={this.setValue}
+            setNextValue={this.setNextValue}
+            setOperation={this.setOperation}/>
       </div>
     )
   }
