@@ -1,0 +1,42 @@
+body {
+  font-size: 30px;
+  font-family: 'helvetica';
+  text-align: center
+}
+
+.calculator {
+  width: 250px;
+}
+
+.output-view {
+  width: 100%;
+  font-size: 80px;
+  text-align: right;
+  background-color: #000;
+  color: #fff;
+}
+
+.result {
+  vertical-align: middle;
+}
+
+.input {
+  display: inline-block;
+  width: 25%;
+  border: 1px solid darkgrey;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.number, .decimal {
+  background-color: lightgrey;
+}
+
+.operation {
+  background-color: orange;
+  color: #fff;
+}
+
+.zero {
+  width: 50%;
+}
