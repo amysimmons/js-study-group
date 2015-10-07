@@ -3,7 +3,7 @@ import ButtonsContainer from './ButtonsContainer';
 import OutputView from './OutputView';
 
 var Calculator = React.createClass({
-  getInitialState: function(){
+  getInitialState (){
     var value,
         nextValue,
         operation,
@@ -20,23 +20,23 @@ var Calculator = React.createClass({
       valueToDisplay: 0
     };
   },
-  add: function(value, nextValue){
+  add (value, nextValue){
     var result = this.state.result;
     return result = value + nextValue;
   },
-  subtract: function(value, nextValue){
+  subtract (value, nextValue){
     var result = this.state.result;
     return result = value - nextValue;
   },
-  divide: function(value, nextValue){
+  divide (value, nextValue){
     var result = this.state.result;
     return result = value / nextValue;
   },
-  multiply: function(value, nextValue){
+  multiply (value, nextValue){
     var result = this.state.result;
     return result = value * nextValue;
   },
-  setNumbersEntered: function(numberEntered){
+  setNumbersEntered (numberEntered){
     var numbersEntered = this.state.numbersEntered;
     var valueToDisplay = this.state.valueToDisplay;
     var value = this.state.value;
@@ -47,7 +47,7 @@ var Calculator = React.createClass({
       numbersEntered = numberEntered.toString();
     }
     else {
-      numbersEntered = numbersEntered.toString() + numberEntered.toString()
+      numbersEntered = numbersEntered.toString() + numberEntered.toString();
     }
 
     if (operation === null){
@@ -57,16 +57,16 @@ var Calculator = React.createClass({
       this.setState({numbersEntered: numbersEntered, nextValue: numbersEntered, valueToDisplay: numbersEntered})
     }
   },
-  setOperation: function(operation){
+  setOperation (operation){
     var numbersEntered = this.state.numbersEntered;
-    if (operation != "ac"){
+    if (operation != "AC"){
       this.setState({operation: operation, numbersEntered: null});
     }
     else {
       this.replaceState(this.getInitialState());
     }
   },
-  getResult: function(value, nextValue, operation){
+  getResult (value, nextValue, operation){
     var value = this.state.value,
         nextValue = this.state.nextValue,
         operation = this.state.operation,
@@ -96,12 +96,12 @@ var Calculator = React.createClass({
             break;
     }
   },
-  render: function(){
-    var value = this.state.value,
-        nextValue = this.state.nextValue,
-        result = this.state.result,
-        numbersEntered = this.state.numbersEntered,
-        valueToDisplay = this.state.valueToDisplay;
+  render (){
+    var nextValue = this.state.nextValue;
+    var numbersEntered = this.state.numbersEntered;
+    var result = this.state.result;
+    var value = this.state.value;
+    var valueToDisplay = this.state.valueToDisplay;
 
     return (
       <div className="calculator">

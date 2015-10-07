@@ -4,7 +4,9 @@ var OutputView = React.createClass({
 
   render: function(){
     return (
-      <div className="output-view"><span className="result">{this.props.valueToDisplay}</span></div>
+      <div className="output-view">
+        <span className="result">{this.props.valueToDisplay}</span>
+      </div>
     )
   }
 });

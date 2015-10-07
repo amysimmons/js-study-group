@@ -1,66 +1,50 @@
 import React from 'react/addons';
 
-var ButtonsContainer = React.createClass({
-  render: function(){
+const Button = React.createClass({
+  propTypes: {
+    action: React.PropTypes.func,
+    type: React.PropTypes.string,
+    value: React.PropTypes.string,
+  },
+  doAction () {
+    this.props.action(this.props.value);
+  },
+  render () {
+    let className = 'input ' + this.props.type;
+    if (this.props.value === '0') {
+      className += ' zero';
+    }
+    return (
+      <div className={className} onClick={this.doAction}>
+        <span>{this.props.value}</span>
+      </div>
+    );
+  },
+});
+
+const ButtonsContainer = React.createClass({
+  render (){
     return (
       <div className="input-buttons">
-        <div className="input operation ac" onClick={this.props.setOperation.bind(this, "ac")}>
-          <span>AC</span>
-        </div>
-        <div className="input operation plus-minus" onClick={this.props.setOperation.bind(this, "+/-")}>
-          <span>+/-</span>
-        </div>
-        <div className="input operation percent" onClick={this.props.setOperation.bind(this, "%")}>
-          <span>%</span>
-        </div>
-        <div className="input operation divide" onClick={this.props.setOperation.bind(this, "/")}>
-          <span>/</span>
-        </div>
-        <div className="input number 7" onClick={this.props.setNumbersEntered.bind(this, 7)}>
-          <span>7</span>
-        </div>
-        <div className="input number 8" onClick={this.props.setNumbersEntered.bind(this, 8)}>
-          <span>8</span>
-        </div>
-        <div className="input number 9" onClick={this.props.setNumbersEntered.bind(this, 9)}>
-          <span>9</span>
-        </div>
-        <div className="input operation multiply" onClick={this.props.setOperation.bind(this, "x")}>
-          <span>x</span>
-        </div>
-        <div className="input number 4" onClick={this.props.setNumbersEntered.bind(this, 4)}>
-          <span>4</span>
-        </div>
-        <div className="input number 5" onClick={this.props.setNumbersEntered.bind(this, 5)}>
-          <span>5</span>
-        </div>
-        <div className="input number 6" onClick={this.props.setNumbersEntered.bind(this, 6)}>
-          <span>6</span>
-        </div>
-        <div className="input operation minus" onClick={this.props.setOperation.bind(this, "-")}>
-          <span>-</span>
-        </div>
-        <div className="input number 1" onClick={this.props.setNumbersEntered.bind(this, 1)}>
-          <span>1</span>
-        </div>
-        <div className="input number 2" onClick={this.props.setNumbersEntered.bind(this, 2)}>
-          <span>2</span>
-        </div>
-        <div className="input number 3" onClick={this.props.setNumbersEntered.bind(this, 3)}>
-          <span>3</span>
-        </div>
-        <div className="input operation plus" onClick={this.props.setOperation.bind(this, "+")}>
-          <span>+</span>
-        </div>
-        <div className="input number zero 0" onClick={this.props.setNumbersEntered.bind(this, 0)}>
-          <span>0</span>
-        </div>
-        <div className="input number decimal" onClick={this.props.setNumbersEntered.bind(this, ".")}>
-          <span>.</span>
-        </div>
-        <div className="input operation equals" onClick={this.props.getResult}>
-          <span>=</span>
-        </div>
+        <Button type="operation" action={this.props.setOperation} value="AC" />
+        <Button type="operation" action={this.props.setOperation} value="+/-" />
+        <Button type="operation" action={this.props.setOperation} value="%" />
+        <Button type="operation" action={this.props.setOperation} value="/" />
+        <Button type="number" action={this.props.setNumbersEntered} value="7" />
+        <Button type="number" action={this.props.setNumbersEntered} value="8" />
+        <Button type="number" action={this.props.setNumbersEntered} value="9" />
+        <Button type="operation" action={this.props.setOperation} value="x" />
+        <Button type="number" action={this.props.setNumbersEntered} value="4" />
+        <Button type="number" action={this.props.setNumbersEntered} value="5" />
+        <Button type="number" action={this.props.setNumbersEntered} value="6" />
+        <Button type="operation" action={this.props.setOperation} value="-" />
+        <Button type="number" action={this.props.setNumbersEntered} value="1" />
+        <Button type="number" action={this.props.setNumbersEntered} value="2" />
+        <Button type="number" action={this.props.setNumbersEntered} value="3" />
+        <Button type="operation" action={this.props.setOperation} value="+" />
+        <Button type="number" action={this.props.setNumbersEntered} value="0" />
+        <Button type="number" action={this.props.setNumbersEntered} value="." />
+        <Button type="operation" action={this.props.getResult} value="=" />
       </div>
     )
   }
