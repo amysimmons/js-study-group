@@ -59,7 +59,12 @@ var Calculator = React.createClass({
   },
   setOperation: function(operation){
     var numbersEntered = this.state.numbersEntered;
-    this.setState({operation: operation, numbersEntered: null});
+    if (operation != "ac"){
+      this.setState({operation: operation, numbersEntered: null});
+    }
+    else {
+      this.replaceState(this.getInitialState());
+    }
   },
   getResult: function(value, nextValue, operation){
     var value = this.state.value,
@@ -69,8 +74,8 @@ var Calculator = React.createClass({
         numbersEntered = this.state.numbersEntered,
         valueToDisplay = this.state.valueToDisplay;
 
-    value = parseInt(value);
-    nextValue = parseInt(nextValue);
+    value = parseFloat(value);
+    nextValue = parseFloat(nextValue);
 
     switch(operation) {
         case "+":
@@ -89,13 +94,7 @@ var Calculator = React.createClass({
             result = this.multiply(value, nextValue);
             this.setState({result: result, valueToDisplay: result});
             break;
-        case "ac":
-            this.replaceState(this.getInitialState());
-            break;
     }
-
-    console.log("result ", result);
-    //this.setState({result: result, valueToDisplay: result});
   },
   render: function(){
     var value = this.state.value,
