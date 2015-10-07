@@ -42,6 +42,7 @@ var Calculator = React.createClass({
     var value = this.state.value;
     var nextValue = this.state.value;
     var operation = this.state.operation;
+    var getResult=this.getResult;
 
     if (numbersEntered === null) {
       numbersEntered = numberEntered.toString();
@@ -55,6 +56,8 @@ var Calculator = React.createClass({
     }
     else {
       this.setState({numbersEntered: numbersEntered, nextValue: numbersEntered, valueToDisplay: numbersEntered})
+      var result = this.getResult(value, nextValue, operation);
+      this.setState({value: result})
     }
   },
   setOperation (operation){
@@ -95,6 +98,7 @@ var Calculator = React.createClass({
             this.setState({result: result, valueToDisplay: result});
             break;
     }
+    this.setState({value: result})
   },
   render (){
     var nextValue = this.state.nextValue;
@@ -132,5 +136,28 @@ var Calculator = React.createClass({
 });
 
 module.exports = Calculator;
+
+
+//array of objects
+//each object has a value and an operation
+//array of operands and operators all in the one list
+// sso u can check wherther it is an operaotr or operand
+// array of objects, store a value and a type
+// if the last thing in the array is a number... u can append that to the display....
+
+//if the last thing is an operator... u can do something else...
+//if u press the operator twice u can remove the previous operaotr
+//modifyng the stack and calculating the stack as a completely differnt funciton
+// so u could have 10 diffferent sets, run them through the functions, and see if they
+//reduce to the single output
+//reduce
+
+//if last thing is operand u know to display the result
+//if last thing is numeric, u knwo to display the numeric input
+
+//operations array
+
+
+
 
 
