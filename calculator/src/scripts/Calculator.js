@@ -42,7 +42,7 @@ var Calculator = React.createClass({
     var value = this.state.value;
     var nextValue = this.state.value;
     var operation = this.state.operation;
-    var getResult=this.getResult;
+    var getResult = this.getResult;
 
     if (numbersEntered === null) {
       numbersEntered = numberEntered.toString();
@@ -56,17 +56,19 @@ var Calculator = React.createClass({
     }
     else {
       this.setState({numbersEntered: numbersEntered, nextValue: numbersEntered, valueToDisplay: numbersEntered})
-      var result = this.getResult(value, nextValue, operation);
-      this.setState({value: result})
     }
   },
   setOperation (operation){
+    var nextValue = this.state.nextValue;
     var numbersEntered = this.state.numbersEntered;
     if (operation != "AC"){
       this.setState({operation: operation, numbersEntered: null});
     }
     else {
       this.replaceState(this.getInitialState());
+    }
+    if (nextValue != null && operation != "AC"){
+      this.getResult();
     }
   },
   getResult (value, nextValue, operation){
@@ -83,7 +85,7 @@ var Calculator = React.createClass({
     switch(operation) {
         case "+":
             result = this.add(value, nextValue);
-            this.setState({result: result, valueToDisplay: result});
+            this.setState({result: result, valueToDisplay: result, value: result});
             break;
         case "-":
             result = this.subtract(value, nextValue);
