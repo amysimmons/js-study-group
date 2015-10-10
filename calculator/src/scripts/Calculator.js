@@ -36,6 +36,22 @@ var Calculator = React.createClass({
     var result = this.state.result;
     return result = value * nextValue;
   },
+  percent (value){
+    value = parseFloat(value);
+    var result = this.state.result;
+    result = value / 100;
+    this.setState({result: result, valueToDisplay: result});
+  },
+  plusMinus(value){
+    value = parseFloat(value);
+    var result = this.state.result;
+    if (value < 0) {
+      result = Math.abs(value);
+    }else {
+      result = -Math.abs(value);
+    }
+    this.setState({result: result, valueToDisplay: result, value: result});
+  },
   setNumbersEntered (numberEntered){
     var numbersEntered = this.state.numbersEntered;
     var valueToDisplay = this.state.valueToDisplay;
@@ -59,6 +75,7 @@ var Calculator = React.createClass({
     }
   },
   setOperation (operation){
+    var value = this.state.value;
     var nextValue = this.state.nextValue;
     var numbersEntered = this.state.numbersEntered;
     if (operation != "AC"){
@@ -69,6 +86,12 @@ var Calculator = React.createClass({
     }
     if (nextValue != null && operation != "AC"){
       this.getResult();
+    }
+    if (operation == '%'){
+      this.percent(value)
+    }
+    if (operation == '+/-'){
+      this.plusMinus(value);
     }
   },
   getResult (value, nextValue, operation){
@@ -97,6 +120,14 @@ var Calculator = React.createClass({
             break;
         case "x":
             result = this.multiply(value, nextValue);
+            this.setState({result: result, valueToDisplay: result});
+            break;
+        case "+/-":
+            result = this.plusMinus(value);
+            this.setState({result: result, valueToDisplay: result});
+            break;
+        case "%":
+            result = this.percent(value);
             this.setState({result: result, valueToDisplay: result});
             break;
     }
