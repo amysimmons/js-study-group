@@ -29,13 +29,62 @@ var Calculator = React.createClass({
   },
   updateQuery (value, type){
     var query = this.state.query;
-    query.push({value: value, type: type});
-    this.setState({query: query});
-    
-    this.updateDisplay();
+
+    if (value == 'AC') {
+      this.replaceState(this.getInitialState());
+    } 
+    else {
+      query.push({value: value, type: type});
+      this.setState({query: query});
+      this.updateDisplay();
+    }
   },
   calculateQuery (query){
+    var calculations = this.state.calculations;
+    var query = this.state.query;
+    var tempQuery = query;
+    var result = this.state.result;
 
+    //find indexes for all parenthesis pairs
+
+    var openParentheses = [];
+    var closingParentheses = [];
+
+    for (var i = 0; i < query.length; i++) {
+      var value = query[i].value;
+      if (value == '('){
+        openParentheses.push(i);
+      }
+      if (value == ')') {
+        closingParentheses.unshift(i);
+      }
+    };
+
+    var parenthesesIndexes = openParentheses.map(function (e, i) {
+      return [[openParentheses[i], closingParentheses[i]]];
+    });
+
+    debugger
+    //for each pair of parenthesis, starting from the inner most, 
+    //calculate whats inside them 
+    //and replace that part of the query with the result
+
+    for (var i = parenthesesIndexes.length - 1; i >= 0; i--) {
+      var parenthesesIndex = parenthesesIndexes[i][0];
+      var chunk = tempQuery.slice(parenthesesIndex[0]+1, parenthesesIndex[1]);
+      debugger
+    };
+
+    //when no parenthesis are left, calculate the final result
+
+    //push the original query and result into calculations array
+    //log out result 
+    //set state 
+
+    //Operators are always evaluated from left-to-right, 
+    //and * and / must be evaluated before + and -.
+    //You need to support multiple levels of nested parentheses, 
+    //ex. (2 / (2 + 3.33) * 4) - -6
   },
   updateDisplay (){
     var query = this.state.query;
