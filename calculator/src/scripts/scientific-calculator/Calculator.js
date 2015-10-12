@@ -11,22 +11,6 @@ var Calculator = React.createClass({
       result: null
     };
   },
-  add (value, nextValue){
-    var result = this.state.result;
-    return result = value + nextValue;
-  },
-  subtract (value, nextValue){
-    var result = this.state.result;
-    return result = value - nextValue;
-  },
-  divide (value, nextValue){
-    var result = this.state.result;
-    return result = value / nextValue;
-  },
-  multiply (value, nextValue){
-    var result = this.state.result;
-    return result = value * nextValue;
-  },
   updateQuery (value, type){
     var query = this.state.query;
 
@@ -78,8 +62,7 @@ var Calculator = React.createClass({
       });
 
       var chunkResult = this.calculateChunk(values);
-
-      debugger
+      debugger;
     };
 
     //when no parenthesis are left, calculate the final result
@@ -92,9 +75,104 @@ var Calculator = React.createClass({
     //ex. (2 / (2 + 3.33) * 4) - -6
   },
   calculateChunk (values){
-    
-    //Operators are always evaluated from left-to-right, 
-    //and * and / must be evaluated before + and -.
+
+    //finds the indexes of the operators 
+    //adds them to an array and sorts them based on importance
+    //start at the first index, get the left and right values
+    var getOperatorIndexes = function(values){
+      var values = values;
+      var operatorIndexes=[];
+      var getResult = function(values, operatorIndexes) {
+        for (var x = 0; x < operatorIndexes.length; x++) {
+          var values = values;
+          var index = operatorIndexes[x];
+          var leftVal = "";
+          var leftValStartIndex;
+          var rightVal = "";
+          var rightValEndIndex;
+          var result;
+
+          //for values going backwards from the first index until operator type != number
+          //push into left val
+          for (var i = index - 1; i >= 0; i--) {
+            var value = values[i];
+            if (value == "+" || value == "-" || value=="x" || value=='/') {
+              leftValStartIndex = i + 1;
+              break;
+            }
+            leftVal += value;
+            leftValStartIndex = 0;
+          };
+
+          //for values going forwards from the first index, until operator type != number
+          //push into second val;
+          for (var i = index + 1; i < values.length; i++) {
+            var value = values[i];
+            if (value == "+" || value == "-" || value=="x" || value=='/') {
+              rightValEndIndex = i - 1;
+              break; 
+            }
+            rightVal += value;
+            rightValEndIndex = values.length - 1;
+          };
+
+          //calculate result
+          var currentOperation = values[index];
+          leftVal = leftVal.split("").reverse().join(""); 
+          var result;
+          switch(currentOperation) {
+          case "+":
+              result = parseFloat(leftVal) + parseFloat(rightVal);
+              break;
+          case "-":
+              result = parseFloat(leftVal) - parseFloat(rightVal);
+              break;
+          case "/":
+              result = parseFloat(leftVal) / parseFloat(rightVal);
+              break;
+          case "x":
+              result = parseFloat(leftVal) * parseFloat(rightVal);
+              break;
+          }
+
+          //get the left val start index
+          //get the right val end index
+          //so you can replace the in between values with the result 
+          //perform the operation
+          //replace that part of the chunk with the result
+          //if necessary, move onto the next index 
+
+          values.splice(leftValStartIndex, rightValEndIndex + 1, result);
+          if (values.indexOf("+") > -1 || values.indexOf("-") > -1 || values.indexOf("x") > -1 || values.indexOf('/') > -1){
+            getOperatorIndexes(values);
+          }
+   
+          console.log('result',result);
+          return result;
+        };
+      };    
+  
+      for (var i = 0; i < values.length; i++) {
+        var value = values[i];
+        if (value == "x" || value == '/') {
+          operatorIndexes.unshift(i);
+        }
+        if (value == "+" || value == "-") {
+          operatorIndexes.push(i);
+        }
+      
+      };
+
+      if (operatorIndexes.length > 0) {
+        var result = getResult(values, operatorIndexes);
+      }else {
+         return result;
+      };
+    };
+
+    var values = values;
+    var result = getOperatorIndexes(values);
+    return values;
   },
   updateDisplay (){
     var query = this.state.query;
