@@ -46,7 +46,6 @@ var Calculator = React.createClass({
     var result = this.state.result;
 
     //find indexes for all parenthesis pairs
-
     var openParentheses = [];
     var closingParentheses = [];
 
@@ -60,18 +59,26 @@ var Calculator = React.createClass({
       }
     };
 
+    //zips the two arrays
     var parenthesesIndexes = openParentheses.map(function (e, i) {
       return [[openParentheses[i], closingParentheses[i]]];
     });
 
-    debugger
     //for each pair of parenthesis, starting from the inner most, 
     //calculate whats inside them 
     //and replace that part of the query with the result
-
+    
     for (var i = parenthesesIndexes.length - 1; i >= 0; i--) {
       var parenthesesIndex = parenthesesIndexes[i][0];
       var chunk = tempQuery.slice(parenthesesIndex[0]+1, parenthesesIndex[1]);
+      var values = [];
+
+      chunk.forEach(function(e){
+        values.push(e.value);
+      });
+
+      var chunkResult = this.calculateChunk(values);
+
       debugger
     };
 
@@ -81,10 +88,13 @@ var Calculator = React.createClass({
     //log out result 
     //set state 
 
-    //Operators are always evaluated from left-to-right, 
-    //and * and / must be evaluated before + and -.
     //You need to support multiple levels of nested parentheses, 
     //ex. (2 / (2 + 3.33) * 4) - -6
+  },
+  calculateChunk (values){
+    
+    //Operators are always evaluated from left-to-right, 
+    //and * and / must be evaluated before + and -.
   },
   updateDisplay (){
     var query = this.state.query;
