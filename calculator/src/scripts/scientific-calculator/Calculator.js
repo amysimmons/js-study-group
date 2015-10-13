@@ -24,48 +24,96 @@ var Calculator = React.createClass({
     }
   },
   calculateQuery (query){
+
+    var _this = this;
+
+    var getParenthesisIndexes = function(query, _this){
+      var query = query;
+      var parenthesesIndexes = [];
+      var getSubQuery = function(query, parenthesesIndexes){
+
+        //for each pair of parenthesis, starting from the inner most, 
+        //calculate whats inside them 
+        //and replace that part of the query with the result
+        for (var i = parenthesesIndexes.length - 1; i >= 0; i--) {
+          var parenthesesIndex = parenthesesIndexes[i][0];
+          var chunk = query.slice(parenthesesIndex[0]+1, parenthesesIndex[1]);
+          var values = [];
+
+          chunk.forEach(function(e){
+            values.push(e.value);
+          });
+
+          debugger;
+
+          var chunkResult = {
+            type: "number",
+            value: _this.calculateChunk(values)[0].toString()
+          }
+       
+          debugger
+          query.splice(parenthesesIndex[0], parenthesesIndex[1] + 1 - parenthesesIndex[0], chunkResult);
+
+          getParenthesisIndexes(query, _this);
+        
+   
+          console.log('result',result);
+          return result;
+
+        };
+
+
+      };
+
+      //find indexes for all parenthesis pairs
+      var openParentheses = [];
+      var closingParentheses = [];
+
+      for (var i = 0; i < query.length; i++) {
+        var value = query[i].value;
+        if (value == '('){
+          openParentheses.push(i);
+        }
+        if (value == ')') {
+          closingParentheses.unshift(i);
+        }
+      };
+
+      if (openParentheses.length > 0 && closingParentheses.length > 0){
+        //zips the two arrays
+        var parenthesesIndexes = openParentheses.map(function (e, i) {
+          return [[openParentheses[i], closingParentheses[i]]];
+        });
+        debugger;
+        var result = getSubQuery(query, parenthesesIndexes);
+
+      }else {
+        //when no parenthesis are left, calculate the final result
+        debugger;
+
+        var queryValues = [];
+
+        query.forEach(function(e){
+          queryValues.push(e.value);
+        });
+
+        var result = _this.calculateChunk(queryValues);
+        console.log('rresult', result);
+      }
+
+    };
+
     var calculations = this.state.calculations;
     var query = this.state.query;
     var tempQuery = query;
     var result = this.state.result;
 
-    //find indexes for all parenthesis pairs
-    var openParentheses = [];
-    var closingParentheses = [];
 
-    for (var i = 0; i < query.length; i++) {
-      var value = query[i].value;
-      if (value == '('){
-        openParentheses.push(i);
-      }
-      if (value == ')') {
-        closingParentheses.unshift(i);
-      }
-    };
 
-    //zips the two arrays
-    var parenthesesIndexes = openParentheses.map(function (e, i) {
-      return [[openParentheses[i], closingParentheses[i]]];
-    });
+    var result = getParenthesisIndexes(query, _this);
+    console.log(result);
 
-    //for each pair of parenthesis, starting from the inner most, 
-    //calculate whats inside them 
-    //and replace that part of the query with the result
-    
-    for (var i = parenthesesIndexes.length - 1; i >= 0; i--) {
-      var parenthesesIndex = parenthesesIndexes[i][0];
-      var chunk = tempQuery.slice(parenthesesIndex[0]+1, parenthesesIndex[1]);
-      var values = [];
-
-      chunk.forEach(function(e){
-        values.push(e.value);
-      });
-
-      var chunkResult = this.calculateChunk(values);
-      debugger;
-    };
-
-    //when no parenthesis are left, calculate the final result
+    debugger
 
     //push the original query and result into calculations array
     //log out result 
@@ -142,7 +190,8 @@ var Calculator = React.createClass({
           //replace that part of the chunk with the result
           //if necessary, move onto the next index 
 
-          values.splice(leftValStartIndex, rightValEndIndex + 1, result);
+          values.splice(leftValStartIndex, rightValEndIndex + 1 - leftValStartIndex, result);
+
           if (values.indexOf("+") > -1 || values.indexOf("-") > -1 || values.indexOf("x") > -1 || values.indexOf('/') > -1){
             getOperatorIndexes(values);
           }
@@ -172,6 +221,7 @@ var Calculator = React.createClass({
 
     var values = values;
     var result = getOperatorIndexes(values);
+    console.log('result',result);
     return values;
   },
   updateDisplay (){
