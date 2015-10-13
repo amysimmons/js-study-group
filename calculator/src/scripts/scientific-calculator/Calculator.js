@@ -128,8 +128,11 @@ var Calculator = React.createClass({
     //adds them to an array and sorts them based on importance
     //start at the first index, get the left and right values
     var getOperatorIndexes = function(values){
+
       var values = values;
       var operatorIndexes=[];
+
+      debugger
       var getResult = function(values, operatorIndexes) {
         for (var x = 0; x < operatorIndexes.length; x++) {
           var values = values;
@@ -140,6 +143,8 @@ var Calculator = React.createClass({
           var rightValEndIndex;
           var result;
 
+          debugger
+
           //for values going backwards from the first index until operator type != number
           //push into left val
           for (var i = index - 1; i >= 0; i--) {
@@ -148,7 +153,7 @@ var Calculator = React.createClass({
               leftValStartIndex = i + 1;
               break;
             }
-            leftVal += value;
+            leftVal = value + leftVal;
             leftValStartIndex = 0;
           };
 
@@ -166,7 +171,9 @@ var Calculator = React.createClass({
 
           //calculate result
           var currentOperation = values[index];
-          leftVal = leftVal.split("").reverse().join(""); 
+
+          debugger
+
           var result;
           switch(currentOperation) {
           case "+":
@@ -189,6 +196,8 @@ var Calculator = React.createClass({
           //perform the operation
           //replace that part of the chunk with the result
           //if necessary, move onto the next index 
+
+          debugger
 
           values.splice(leftValStartIndex, rightValEndIndex + 1 - leftValStartIndex, result);
 
@@ -219,9 +228,12 @@ var Calculator = React.createClass({
       };
     };
 
+    debugger
+
     var values = values;
     var result = getOperatorIndexes(values);
     console.log('result',result);
+    debugger
     return values;
   },
   updateDisplay (){
