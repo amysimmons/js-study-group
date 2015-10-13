@@ -25,8 +25,6 @@ var Calculator = React.createClass({
   },
   calculateQuery (query){
 
-    var _this = this;
-
     var getParenthesisIndexes = function(query, _this){
       var query = query;
       var parenthesesIndexes = [];
@@ -44,25 +42,14 @@ var Calculator = React.createClass({
             values.push(e.value);
           });
 
-          debugger;
-
           var chunkResult = {
             type: "number",
             value: _this.calculateChunk(values)[0].toString()
           }
        
-          debugger
           query.splice(parenthesesIndex[0], parenthesesIndex[1] + 1 - parenthesesIndex[0], chunkResult);
-
           getParenthesisIndexes(query, _this);
-        
-   
-          console.log('result',result);
-          return result;
-
         };
-
-
       };
 
       //find indexes for all parenthesis pairs
@@ -79,18 +66,18 @@ var Calculator = React.createClass({
         }
       };
 
+      //zips the two arrays
       if (openParentheses.length > 0 && closingParentheses.length > 0){
-        //zips the two arrays
+        
         var parenthesesIndexes = openParentheses.map(function (e, i) {
           return [[openParentheses[i], closingParentheses[i]]];
         });
-        debugger;
+        ;
         var result = getSubQuery(query, parenthesesIndexes);
 
+      //when no parenthesis are left, calculate the final result
       }else {
-        //when no parenthesis are left, calculate the final result
-        debugger;
-
+      
         var queryValues = [];
 
         query.forEach(function(e){
@@ -98,20 +85,26 @@ var Calculator = React.createClass({
         });
 
         var result = _this.calculateChunk(queryValues);
-        console.log('rresult', result);
       }
 
+      console.log('hi res',result);
+      return result;
     };
 
     var calculations = this.state.calculations;
     var query = this.state.query;
-    var tempQuery = query;
+    var tempQuery = this.state.query;
     var result = this.state.result;
+    var _this = this;
+    var queryResult = getParenthesisIndexes(query, _this);
 
+    this.setState({
+      query: tempQuery, 
+      result: queryResult
+    });
 
-
-    var result = getParenthesisIndexes(query, _this);
-    console.log(result);
+  console.log('tempquery', tempQuery);  
+  console.log('endresult', queryResult);
 
     debugger
 
@@ -132,7 +125,6 @@ var Calculator = React.createClass({
       var values = values;
       var operatorIndexes=[];
 
-      debugger
       var getResult = function(values, operatorIndexes) {
         for (var x = 0; x < operatorIndexes.length; x++) {
           var values = values;
@@ -142,8 +134,6 @@ var Calculator = React.createClass({
           var rightVal = "";
           var rightValEndIndex;
           var result;
-
-          debugger
 
           //for values going backwards from the first index until operator type != number
           //push into left val
@@ -171,9 +161,6 @@ var Calculator = React.createClass({
 
           //calculate result
           var currentOperation = values[index];
-
-          debugger
-
           var result;
           switch(currentOperation) {
           case "+":
@@ -196,16 +183,13 @@ var Calculator = React.createClass({
           //perform the operation
           //replace that part of the chunk with the result
           //if necessary, move onto the next index 
-
-          debugger
-
           values.splice(leftValStartIndex, rightValEndIndex + 1 - leftValStartIndex, result);
 
           if (values.indexOf("+") > -1 || values.indexOf("-") > -1 || values.indexOf("x") > -1 || values.indexOf('/') > -1){
             getOperatorIndexes(values);
           }
    
-          console.log('result',result);
+          console.log('result here',result);
           return result;
         };
       };    
@@ -228,12 +212,8 @@ var Calculator = React.createClass({
       };
     };
 
-    debugger
-
     var values = values;
     var result = getOperatorIndexes(values);
-    console.log('result',result);
-    debugger
     return values;
   },
   updateDisplay (){
