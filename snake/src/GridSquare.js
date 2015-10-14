@@ -3,16 +3,17 @@ import React from 'react/addons';
 var GridSquare = React.createClass({
 
   propTypes: {
-    type: React.PropTypes.string,
-    action: React.PropTypes.func,
+  	//empty, snake, food
+    type: React.PropTypes.string
   },
 
-  render: function(){
+  render () {
+    let className = 'grid-square ' + this.props.type;
     return (
-      <div className="grid-square">
-      </div>
-    )
-  }
+      <div className={className}></div>
+    );
+  },
+
 });
 
 module.exports = GridSquare;
