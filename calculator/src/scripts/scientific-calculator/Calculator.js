@@ -103,21 +103,18 @@ var Calculator = React.createClass({
     //console.log('tempquery', tempQuery); 
     var _this = this;
     var query = this.state.query;
+    var display = this.state.display;
     var originalQuery = this.state.query;
     var result = this.state.result;
     result = getParenthesisIndexes(query, _this);
 
     console.log('endresult', result);
 
-    //var calculations = this.state.calculations;
-    var calculations = []
-    //var calculation = {query: originalQuery, result: result}
-    var calculation = 'xxx';
-    calculations = calculations.push(calculation);
+    var calculations = this.state.calculations;
+    var calculation = {query: originalQuery, result: result}
+    calculations.push(calculation);
 
-    debugger;
-
-    this.setState({result: result, display: result, calculations: calculations});
+    this.setState({result: result, lastQueryOrResult: display, display: result, calculations: calculations});
   },
   calculateChunk (values){
 
@@ -222,6 +219,8 @@ var Calculator = React.createClass({
   },
   updateDisplay (){
     var query = this.state.query;
+    var result = this.state.result;
+
 
     if(this.state.display == null){
       var display = '';
@@ -231,18 +230,20 @@ var Calculator = React.createClass({
       display += query[query.length-1].value.toString(); 
     }
 
-    this.setState({display: display});
+    this.setState({display: display, lastQueryOrResult: result});
   },
   render (){
     var query = this.state.query;
     var result = this.state.result;
     var display = this.state.display;
+    var lastQueryOrResult = this.state.lastQueryOrResult;
 
     return (
       <div className="calculator">
           <QueryAnswerView
             query={query}
-            result={result}/>
+            result={result}
+            lastQueryOrResult={lastQueryOrResult}/>
 
           <OutputView
             query={query}
