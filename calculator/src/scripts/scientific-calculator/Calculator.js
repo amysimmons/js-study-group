@@ -5,6 +5,10 @@ import QueryAnswerView from './QueryAnswerView';
 
 var Calculator = React.createClass({
   getInitialState (){
+    var calculations,
+        query, 
+        result;
+
     return{
       calculations: [],
       query: [],
@@ -48,7 +52,8 @@ var Calculator = React.createClass({
           }
        
           query.splice(parenthesesIndex[0], parenthesesIndex[1] + 1 - parenthesesIndex[0], chunkResult);
-          getParenthesisIndexes(query, _this);
+          var result = getParenthesisIndexes(query, _this);
+          return result;
         };
       };
 
@@ -74,6 +79,8 @@ var Calculator = React.createClass({
         });
         ;
         var result = getSubQuery(query, parenthesesIndexes);
+        console.log('hi res',result);
+        return result;
 
       //when no parenthesis are left, calculate the final result
       }else {
@@ -85,35 +92,32 @@ var Calculator = React.createClass({
         });
 
         var result = _this.calculateChunk(queryValues);
+        console.log('hi res',result);
+        return result;
       }
-
-      console.log('hi res',result);
-      return result;
     };
-
-    var calculations = this.state.calculations;
-    var query = this.state.query;
-    var tempQuery = this.state.query;
-    var result = this.state.result;
-    var _this = this;
-    var queryResult = getParenthesisIndexes(query, _this);
-
-    this.setState({
-      query: tempQuery, 
-      result: queryResult
-    });
-
-  console.log('tempquery', tempQuery);  
-  console.log('endresult', queryResult);
-
-    debugger
 
     //push the original query and result into calculations array
     //log out result 
     //set state 
+    //console.log('tempquery', tempQuery); 
+    var _this = this;
+    var query = this.state.query;
+    var originalQuery = this.state.query;
+    var result = this.state.result;
+    result = getParenthesisIndexes(query, _this);
 
-    //You need to support multiple levels of nested parentheses, 
-    //ex. (2 / (2 + 3.33) * 4) - -6
+    console.log('endresult', result);
+
+    //var calculations = this.state.calculations;
+    var calculations = []
+    //var calculation = {query: originalQuery, result: result}
+    var calculation = 'xxx';
+    calculations = calculations.push(calculation);
+
+    debugger;
+
+    this.setState({result: result, display: result, calculations: calculations});
   },
   calculateChunk (values){
 
