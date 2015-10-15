@@ -69,7 +69,6 @@ var Snake = React.createClass({
       console.log(e.type, e.which, e.timeStamp);
       switch(e.which){
         case 39:
-          debugger
           this.state.snake.direction = 'r';
         break;
         case 37:
