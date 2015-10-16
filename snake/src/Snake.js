@@ -7,16 +7,16 @@ import GameStatus from './GameStatus';
 var Snake = React.createClass({
   getInitialState (){
     var grid,
+      food = [Math.floor(Math.random() * 40) + 1, Math.floor(Math.random() * 40) + 1],
     	snake = {
-			startPosition: [20, 20],
 			direction: 'd',
 			currentSnake: [[20, 20], [20, 21], [20, 22], [20, 23], [20, 24]]
 		};
 
     return{
-		grid: this.createGridData(snake.currentSnake),
+		grid: this.createGridData(snake.currentSnake, food),
+    food: food,
 		snake: snake
-
     };
   },
   componentDidMount() {
@@ -26,6 +26,8 @@ var Snake = React.createClass({
   startGame () {
   	this.setState(this.state);
   	setInterval(() => {
+      var food = this.state.food;
+      var currentSnake = this.state.snake.currentSnake;
   		var nextSnakePositions = this.state.snake.currentSnake.slice();
   		var nextHead = nextSnakePositions[0].slice();
   		switch(this.state.snake.direction){
@@ -47,13 +49,21 @@ var Snake = React.createClass({
 
       //if the head crosses the body at any point, end game
       //not working yet
-      var body = nextSnakePositions.slice(1, nextSnakePositions.length);
+      /*
+      debugger
+      var body = currentSnake.slice(1, currentSnake.length);
       if (body.indexOf(nextHead) != -1) {
         this.endGame();
       }
+      */
+   
+      if (currentSnake[0][0] == food[0] && currentSnake[0][1] == food[1]) {
+        console.log('snake ate food');
+        this.eatFood();
+      }
 
   		this.setState({
-  			grid : this.createGridData(nextSnakePositions),
+  			grid : this.createGridData(nextSnakePositions, this.state.food),
   			snake : {
   				direction: this.state.snake.direction,
   				currentSnake: nextSnakePositions
@@ -69,7 +79,8 @@ var Snake = React.createClass({
 
   },
   eatFood () {
-
+    var food = this.state.food
+    this.replaceState(this.getInitialState({food: food}))
   },
   handleKeyDown (e) {
       console.log(e.type, e.which, e.timeStamp);
@@ -95,20 +106,12 @@ var Snake = React.createClass({
         }
       });
   },
-  createGridData(currentSnakePositions = []) {
-  	
-    //initial food placement not working yet
-    var food = Math.floor(Math.random() * 40) + 1;  
-
+  createGridData(currentSnakePositions = [], food) {
     var grid = [];
     for(var i = 0; i < 40; i++){
     	grid.push([]);
     	for(var j = 0; j < 40; j++){
-        if(grid[food] == j){
-          grid[i].push('food');
-        } else {
-          grid[i].push('empty');
-        }
+        grid[i].push('empty');
     	}
     }
 
@@ -116,11 +119,15 @@ var Snake = React.createClass({
     	grid[y][x] = 'snake';
     });
 
+    let [x,y] = [food[0],food[1]]
+    grid[y][x] = 'food';
+
     return grid;
   },
   render (){
     var grid = this.state.grid;
     var snake = this.state.snake;
+    var food = this.state.food;
 
     return (
       <div className="game">
@@ -128,6 +135,7 @@ var Snake = React.createClass({
           <Grid
           grid={grid}
           snake={snake}
+          food={food}
           rowCount="40"
           squareCount="40"/>
           <GameStatus/>
