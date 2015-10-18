@@ -30,6 +30,8 @@ var Snake = React.createClass({
       var currentSnake = this.state.snake.currentSnake;
   		var nextSnakePositions = this.state.snake.currentSnake.slice();
   		var nextHead = nextSnakePositions[0].slice();
+      //debugger
+
   		switch(this.state.snake.direction){
   			case 'r':
   				nextHead[0]++;
@@ -57,7 +59,7 @@ var Snake = React.createClass({
       }
       */
    
-      if (currentSnake[0][0] == food[0] && currentSnake[0][1] == food[1]) {
+      if (nextSnakePositions[0][0] == food[0] && nextSnakePositions[0][1] == food[1]) {
         console.log('snake ate food');
         this.eatFood();
       }
@@ -69,7 +71,7 @@ var Snake = React.createClass({
   				currentSnake: nextSnakePositions
   			}
   		});
-  	}, 1000);
+  	}, 500);
   },
   endGame() {
     console.log('game over')
@@ -79,8 +81,42 @@ var Snake = React.createClass({
 
   },
   eatFood () {
+
+    debugger
     var food = this.state.food
-    this.replaceState(this.getInitialState({food: food}))
+    var currentSnake = this.state.snake.currentSnake;
+    var nextSnakePositions = this.state.snake.currentSnake.slice();
+    var lastTwoChunks = nextSnakePositions.slice(nextSnakePositions.length - 2);
+    var newTail = nextSnakePositions[nextSnakePositions.length -1].slice();
+   
+    switch(true){
+      case lastTwoChunks[0][1] > lastTwoChunks[1][1]:
+        newTail[1]--;
+      break;
+      case lastTwoChunks[0][1] < lastTwoChunks[1][1]:
+       newTail[1]++;
+      break;
+      case lastTwoChunks[0][0] > lastTwoChunks[1][0]:
+        newTail[0]--;
+      break;
+      case lastTwoChunks[0][0] < lastTwoChunks[1][0]:
+       newTail[0]++;
+      break;
+    }
+
+      nextSnakePositions.push(newTail);
+      //nextSnakePositions.pop();
+
+      this.setState({
+        food: food,
+        snake : {
+          currentSnake: nextSnakePositions
+        }
+      });
+
+    //debugger
+    
+    //this.replaceState(this.getInitialState({food: food}))
   },
   handleKeyDown (e) {
       console.log(e.type, e.which, e.timeStamp);
