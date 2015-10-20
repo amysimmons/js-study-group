@@ -57,7 +57,6 @@ var Snake = React.createClass({
         grid[food[0],food[1]][food[0]] = 'snake';
         food = [Math.floor(Math.random() * 39) + 1, Math.floor(Math.random() * 39) + 1];
         this.setState({food: food});
-        //debugger
         console.log(nextSnakePositions.length);
         nextSnakePositions.unshift(nextHead);
         console.log(nextSnakePositions.length)
@@ -69,7 +68,6 @@ var Snake = React.createClass({
 
       this.setState({
         grid : this.createGridData(nextSnakePositions, this.state.food),
-        //food: food,
         score: currentSnake.length - 6,
         snake : {
           direction: this.state.snake.direction,
@@ -80,19 +78,15 @@ var Snake = React.createClass({
       //end game if snake leaves the board
       switch(true){
         case nextHead[0] <= 0:
-          //clearInterval(timer);
           this.endGame();
         break;
         case nextHead[0] >= 39:
-        //clearInterval(timer);
          this.endGame();
         break;
         case nextHead[1] >= 39:
-        //clearInterval(timer);
           this.endGame();
         break;
         case nextHead[1] <= 0:
-        //clearInterval(timer);
          this.endGame();
         break;
       }
