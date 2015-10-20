@@ -7,10 +7,10 @@ import GameStatus from './GameStatus';
 var Snake = React.createClass({
   getInitialState (){
     var grid,
-      food = [Math.floor(Math.random() * 40) + 1, Math.floor(Math.random() * 40) + 1],
+      food = [Math.floor(Math.random() * 39) + 1, Math.floor(Math.random() * 39) + 1],
     	snake = {
 			direction: 'u',
-			currentSnake: [[20, 20], [20, 21], [20, 22], [20, 23], [20, 24], [20, 25], [20, 26], [20, 27], [20, 28], [20, 29], [20, 30], [20, 31], [20, 32]]
+			currentSnake: [[20, 20], [20, 21], [20, 22], [20, 23], [20, 24], [20, 25]]
 		};
 
     return{
@@ -28,11 +28,11 @@ var Snake = React.createClass({
 
   	var timer = setInterval(() => {
       var food = this.state.food;
+      var grid = this.state.grid;
       var currentSnake = this.state.snake.currentSnake;
       var currentSnakeHead = this.state.snake.currentSnake[0].slice();
   		var nextSnakePositions = this.state.snake.currentSnake.slice();
   		var nextHead = nextSnakePositions[0].slice();
-      //debugger
 
   		switch(this.state.snake.direction){
   			case 'r':
@@ -48,12 +48,22 @@ var Snake = React.createClass({
   				nextHead[1]--;
   			break;
   		}
-  		nextSnakePositions.unshift(nextHead);
-  		nextSnakePositions.pop();
 
+      //dont pop the tail off if the snake has eaten food
+      if (currentSnake[0][0] == food[0] && currentSnake[0][1] == food[1]) {
+        console.log('snake ate food');
+        grid[food[0],food[1]][food[0]] = 'snake';
+        food = [Math.floor(Math.random() * 39) + 1, Math.floor(Math.random() * 39) + 1];
+        nextSnakePositions.unshift(nextHead);
+      }
+      else {
+        nextSnakePositions.unshift(nextHead);
+        nextSnakePositions.pop();
+      }
 
       this.setState({
         grid : this.createGridData(nextSnakePositions, this.state.food),
+        food: food,
         snake : {
           direction: this.state.snake.direction,
           currentSnake: nextSnakePositions
@@ -84,65 +94,17 @@ var Snake = React.createClass({
       var body = nextSnakePositions.slice(1, nextSnakePositions.length);
 
       for (var i = 0; i < body.length; i++) {
-        debugger
        var bodyPart = body[i];
        if ((bodyPart[0] == nextHead[0]) && (bodyPart[1] == nextHead[1])) {
         this.endGame();
        }
       }
-
-      //grow if snake eats food
-      if (nextSnakePositions[0][0] == food[0] && nextSnakePositions[0][1] == food[1]) {
-        console.log('snake ate food');
-        this.eatFood();
-      }
-  	}, 500);
+  	}, 300);
   },
   endGame() {
     console.log('game over');
     this.replaceState(this.getInitialState());
     this.startGame();
-  },
-  placeFood () {
-
-  },
-  eatFood () {
-
-    //debugger
-    var food = this.state.food
-    var currentSnake = this.state.snake.currentSnake;
-    var nextSnakePositions = this.state.snake.currentSnake.slice();
-    var lastTwoChunks = nextSnakePositions.slice(nextSnakePositions.length - 2);
-    var newTail = nextSnakePositions[nextSnakePositions.length -1].slice();
-
-    switch(true){
-      case lastTwoChunks[0][1] > lastTwoChunks[1][1]:
-        newTail[1]--;
-      break;
-      case lastTwoChunks[0][1] < lastTwoChunks[1][1]:
-       newTail[1]++;
-      break;
-      case lastTwoChunks[0][0] > lastTwoChunks[1][0]:
-        newTail[0]--;
-      break;
-      case lastTwoChunks[0][0] < lastTwoChunks[1][0]:
-       newTail[0]++;
-      break;
-    }
-
-      nextSnakePositions.push(newTail);
-      //nextSnakePositions.pop();
-
-      this.setState({
-        food: food,
-        snake : {
-          currentSnake: nextSnakePositions
-        }
-      });
-
-    //debugger
-
-    //this.replaceState(this.getInitialState({food: food}))
   },
   handleKeyDown (e) {
       console.log(e.type, e.which, e.timeStamp);
@@ -169,8 +131,6 @@ var Snake = React.createClass({
       });
   },
   createGridData(currentSnakePositions = [], food) {
-    //debugger
-
     var grid = [];
     for(var i = 0; i < 40; i++){
     	grid.push([]);
@@ -180,8 +140,6 @@ var Snake = React.createClass({
     }
 
     var currentSnakePositions = currentSnakePositions;
-
-    console.log(currentSnakePositions);
 
     currentSnakePositions.forEach(([x, y]) => {
     	grid[y][x] = 'snake';
