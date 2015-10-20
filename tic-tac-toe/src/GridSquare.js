@@ -8,8 +8,10 @@ var GridSquare = React.createClass({
 
   render () {
     let className = 'grid-square ' + this.props.type;
+    let position = [this.props.yPos,this.props.xPos];
+
     return (
-      <div className={className}></div>
+      <div className={className} onClick={this.props.playerTurn.bind(this, position)}></div>
     );
   },
 

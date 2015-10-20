@@ -6,7 +6,7 @@ var Grid = React.createClass({
     var grid = [];
 
     for (var i = 0; i < this.props.grid.length; i++) {
-      var row = (<GridRow squares={this.props.grid[i]} key={i}/>);
+      var row = (<GridRow squares={this.props.grid[i]} key={i} playerTurn={this.props.playerTurn} yPos={i}/>);
       grid.push(row);
     };
 
