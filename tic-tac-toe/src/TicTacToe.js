@@ -7,14 +7,16 @@ var TicTacToe = React.createClass({
   getInitialState (){
     var grid,
         winningCombinations,
-        player,
-        computer;
+        player = 'naught',
+        computer = 'cross',
+        turn = 0;
 
     return{
       grid: this.createGridData(),
       winningCombinations: winningCombinations,
       player: player,
-      computer: computer
+      computer: computer,
+      turn: turn
     };
   },
   componentDidMount() {
@@ -46,6 +48,64 @@ var TicTacToe = React.createClass({
   },
   playerTurn(position) {
     console.log('player went at position ', position);
+
+    var grid = this.state.grid;
+    var player = this.state.player;
+    grid[position[0]][position[1]] = player;
+    
+    var win = this.checkForWin();
+    this.state.turn++;
+
+    if (win == false && this.state.turn < 9) {
+      this.computerTurn();
+    }else {
+      this.gameOver();
+    }
+
+    this.setState({grid: grid})
+  },
+  computerTurn(){
+    console.log('computer turn');
+
+    var grid = this.state.grid;
+    var computer = this.state.computer;
+    //computer logic goes here
+
+    if(this.state.turn <= 1){
+      //pick random position
+      //grid[position[0]][position[1]] = computer;
+      //debugger
+    }else {
+      //if there are two of either naught or cross
+      //in any of the winning combinations
+      //go in the empty space of that row
+    }
+
+    var win = this.checkForWin();
+    this.state.turn++;
+
+    if (win == false && this.state.turn < 9) {
+      //this.playerTurn();
+    }else {
+      this.gameOver();
+    }
+
+    this.setState({grid: grid})
+  },
+  checkForWin() {
+    var winningCombinations = this.state.winningCombinations;
+    for (var i = 0; i < winningCombinations.length; i++) {
+      var winningCombination = winningCombinations[i];
+
+      if((winningCombination[i] !== 'empty') && (winningCombination[i] !== winningCombination[0])) {
+        return true;
+      }
+      return false;
+    };
+  },
+  gameOver() {
+    console.log('game over');
+    this.setState({gameOver: true})
   },
   render (){
     var grid = this.state.grid;
