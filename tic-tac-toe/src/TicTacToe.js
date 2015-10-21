@@ -73,7 +73,10 @@ var TicTacToe = React.createClass({
 
     if(this.state.turn <= 1){
       //pick random position
-      //grid[position[0]][position[1]] = computer;
+      var row = Math.floor(Math.random() * 2) + 1;
+      var square = Math.floor(Math.random() * 2) + 1;
+      
+      grid[row][square] = computer;
       //debugger
     }else {
       //if there are two of either naught or cross
