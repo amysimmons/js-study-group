@@ -76,6 +76,7 @@ var TicTacToe = React.createClass({
       var grid = _this.state.grid;
       var computer = _this.state.computer;
       var emptyPositions = _this.state.emptyPositions;
+      var winningCombinations = _this.state.winningCombinations;
       //computer logic goes here
 
       if(_this.state.turn <= 1){
@@ -86,14 +87,27 @@ var TicTacToe = React.createClass({
         //if there are two of either naught or cross
         //in any of the winning combinations
         //go in the empty space of that row
+
+
+        for (var i = 0; i < winningCombinations.length; i++) {
+          var winningCombination = winningCombinations[i];
+          var uniqueVals = (new Set(winningCombination));
+
+          if(uniqueVals.size == 2 && uniqueVals.has("empty")){
+            //debugger
+
+            var square = winningCombination.indexOf("empty");
+            winningCombination[square] = computer;
+            break;
+          }
+
+        };
       }
 
       var win = _this.checkForWin();
       _this.state.turn++;
 
-      if (win == false && _this.state.turn < 9) {
-        //this.playerTurn();
-      }else {
+      if (win == true && _this.state.turn == 9) {
         _this.gameOver();
       }
 
