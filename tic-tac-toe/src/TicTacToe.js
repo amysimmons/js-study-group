@@ -7,6 +7,7 @@ var TicTacToe = React.createClass({
   getInitialState (){
     var grid,
         winningCombinations,
+        emptyPositions,
         player = 'naught',
         computer = 'cross',
         turn = 0;
@@ -16,7 +17,8 @@ var TicTacToe = React.createClass({
       winningCombinations: winningCombinations,
       player: player,
       computer: computer,
-      turn: turn
+      turn: turn,
+      emptyPositions: emptyPositions
     };
   },
   componentDidMount() {
@@ -52,8 +54,9 @@ var TicTacToe = React.createClass({
     var grid = this.state.grid;
     var player = this.state.player;
     grid[position[0]][position[1]] = player;
-    
+
     var win = this.checkForWin();
+    var emptyPositions = this.findEmptyPositions();
     this.state.turn++;
 
     if (win == false && this.state.turn < 9) {
@@ -62,38 +65,55 @@ var TicTacToe = React.createClass({
       this.gameOver();
     }
 
-    this.setState({grid: grid})
+    this.setState({grid: grid, emptyPositions: emptyPositions})
   },
   computerTurn(){
-    console.log('computer turn');
 
+    var _this = this;
+    setTimeout(function(){
+      console.log('computer turn');
+
+      var grid = _this.state.grid;
+      var computer = _this.state.computer;
+      var emptyPositions = _this.state.emptyPositions;
+      //computer logic goes here
+
+      if(_this.state.turn <= 1){
+        //pick random position
+        var randomPos = emptyPositions[Math.floor(Math.random()*emptyPositions.length)];
+        grid[randomPos[0]][randomPos[1]] = computer;
+      }else {
+        //if there are two of either naught or cross
+        //in any of the winning combinations
+        //go in the empty space of that row
+      }
+
+      var win = _this.checkForWin();
+      _this.state.turn++;
+
+      if (win == false && _this.state.turn < 9) {
+        //this.playerTurn();
+      }else {
+        _this.gameOver();
+      }
+
+      _this.setState({grid: grid})
+
+    }, 1000);
+  },
+  findEmptyPositions() {
     var grid = this.state.grid;
-    var computer = this.state.computer;
-    //computer logic goes here
-
-    if(this.state.turn <= 1){
-      //pick random position
-      var row = Math.floor(Math.random() * 2) + 1;
-      var square = Math.floor(Math.random() * 2) + 1;
-      
-      grid[row][square] = computer;
-      //debugger
-    }else {
-      //if there are two of either naught or cross
-      //in any of the winning combinations
-      //go in the empty space of that row
-    }
-
-    var win = this.checkForWin();
-    this.state.turn++;
-
-    if (win == false && this.state.turn < 9) {
-      //this.playerTurn();
-    }else {
-      this.gameOver();
-    }
-
-    this.setState({grid: grid})
+    var emptyPositions = [];
+    for (var i = 0; i < grid.length; i++) {
+      var row = grid[i];
+      for (var x = 0; x < row.length; x++) {
+        var square = row[x];
+        if (square == "empty"){
+          emptyPositions.push([i,x])
+        }
+      };
+    };
+    return emptyPositions;
   },
   checkForWin() {
     var winningCombinations = this.state.winningCombinations;
