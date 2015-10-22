@@ -53,6 +53,7 @@ var TicTacToe = React.createClass({
 
     var grid = this.state.grid;
     var player = this.state.player;
+    var winningCombinations = this.state.winningCombinations;
     grid[position[0]][position[1]] = player;
 
     var win = this.checkForWin();
@@ -65,7 +66,7 @@ var TicTacToe = React.createClass({
       this.gameOver();
     }
 
-    this.setState({grid: grid, emptyPositions: emptyPositions})
+    this.setState({grid: grid, winningCombinations: winningCombinations, emptyPositions: emptyPositions})
   },
   computerTurn(){
 
@@ -88,19 +89,27 @@ var TicTacToe = React.createClass({
         //in any of the winning combinations
         //go in the empty space of that row
 
-
         for (var i = 0; i < winningCombinations.length; i++) {
           var winningCombination = winningCombinations[i];
-          var uniqueVals = (new Set(winningCombination));
+          //debugger
+          //first check if it doesn't contain two empty values 
+          var emptyCount = 0;
+          for (var i = 0; i < winningCombination.length; i++) {
+            var val = winningCombination[i];
+            if (val == "empty"){
+              emptyCount++;
+            }
+          };
 
-          if(uniqueVals.size == 2 && uniqueVals.has("empty")){
-            //debugger
-
-            var square = winningCombination.indexOf("empty");
-            winningCombination[square] = computer;
-            break;
+          if (emptyCount < 2) {
+            var uniqueVals = (new Set(winningCombination));
+            if(uniqueVals.size == 2 && uniqueVals.has("empty")){
+              var square = winningCombination.indexOf("empty");
+              winningCombination[square] = computer;
+              break;
+            }
+            //break; 
           }
-
         };
       }
 
