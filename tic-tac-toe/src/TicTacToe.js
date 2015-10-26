@@ -76,14 +76,17 @@ var TicTacToe = React.createClass({
 
       var grid = _this.state.grid;
       var computer = _this.state.computer;
+      var player = _this.state.player;
       var emptyPositions = _this.state.emptyPositions;
       var winningCombinations = _this.state.winningCombinations;
+      var originalNumTurns = _this.state.turn;
       //computer logic goes here
 
       if(_this.state.turn <= 1){
         //pick random position
         var randomPos = emptyPositions[Math.floor(Math.random()*emptyPositions.length)];
         grid[randomPos[0]][randomPos[1]] = computer;
+        //_this.setState({emptyPositions: _this.findEmptyPositions()})
       }else {
         //if there are two of either naught or cross
         //in any of the winning combinations
@@ -92,25 +95,46 @@ var TicTacToe = React.createClass({
         for (var i = 0; i < winningCombinations.length; i++) {
           var winningCombination = winningCombinations[i];
           //debugger
-          //first check if it doesn't contain two empty values 
+
+          var computerCount = 0;
+          var playerCount = 0;
           var emptyCount = 0;
+
           for (var i = 0; i < winningCombination.length; i++) {
             var val = winningCombination[i];
             if (val == "empty"){
               emptyCount++;
             }
+            if (val == player){
+              playerCount++;
+            }
+            if (val == computer){
+              computerCount++;
+            }
           };
 
-          if (emptyCount < 2) {
-            var uniqueVals = (new Set(winningCombination));
-            if(uniqueVals.size == 2 && uniqueVals.has("empty")){
-              var square = winningCombination.indexOf("empty");
-              winningCombination[square] = computer;
-              break;
-            }
-            //break; 
+          if(computerCount == 2){
+            var square = winningCombination.indexOf("empty");
+            winningCombination[square] = computer;
+           // _this.state.turn++;
+            _this.setState({turn: _this.state.turn++})
+            break;
+          }else if(playerCount == 2){
+            var square = winningCombination.indexOf("empty");
+            winningCombination[square] = computer;
+           // _this.state.turn++;
+            _this.setState({turn: _this.state.turn++})
+            break;
           }
+
         };
+        //check if computer made a move, if it didn't go
+        // in a random empty place for now
+        if (_this.state.turn == originalNumTurns){
+          var randomPos = emptyPositions[Math.floor(Math.random()*emptyPositions.length)];
+          grid[randomPos[0]][randomPos[1]] = computer;
+        }
+
       }
 
       var win = _this.checkForWin();
