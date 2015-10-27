@@ -80,17 +80,17 @@ var TicTacToe = React.createClass({
       var emptyPositions = _this.state.emptyPositions;
       var winningCombinations = _this.state.winningCombinations;
       var originalNumTurns = _this.state.turn;
-      //computer logic goes here
 
       if(_this.state.turn <= 1){
         //pick random position
         var randomPos = emptyPositions[Math.floor(Math.random()*emptyPositions.length)];
         grid[randomPos[0]][randomPos[1]] = computer;
-        //_this.setState({emptyPositions: _this.findEmptyPositions()})
       }else {
         //if there are two of either naught or cross
         //in any of the winning combinations
         //go in the empty space of that row
+
+        var computerWent = false;
 
         for (var i = 0; i < winningCombinations.length; i++) {
           var winningCombination = winningCombinations[i];
@@ -115,22 +115,25 @@ var TicTacToe = React.createClass({
 
           if(computerCount == 2){
             var square = winningCombination.indexOf("empty");
+            debugger
             winningCombination[square] = computer;
-           // _this.state.turn++;
-            _this.setState({turn: _this.state.turn++})
+            computerWent = true;
             break;
           }else if(playerCount == 2){
             var square = winningCombination.indexOf("empty");
+            debugger
             winningCombination[square] = computer;
-           // _this.state.turn++;
-            _this.setState({turn: _this.state.turn++})
+            computerWent = true;
             break;
           }
 
         };
+        //debugger
         //check if computer made a move, if it didn't go
         // in a random empty place for now
-        if (_this.state.turn == originalNumTurns){
+
+        if (!computerWent){
+          debugger
           var randomPos = emptyPositions[Math.floor(Math.random()*emptyPositions.length)];
           grid[randomPos[0]][randomPos[1]] = computer;
         }
@@ -144,7 +147,7 @@ var TicTacToe = React.createClass({
         _this.gameOver();
       }
 
-      _this.setState({grid: grid})
+      _this.setState({grid: grid, winningCombinations: winningCombinations, emptyPositions: emptyPositions})
 
     }, 1000);
   },
