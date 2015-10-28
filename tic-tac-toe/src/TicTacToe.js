@@ -119,6 +119,7 @@ var TicTacToe = React.createClass({
             }
           };
 
+          //square is wrong - it's not always the right index 
           if(computerCount == 2 && emptyCount == 1){
             var square = winningCombination.indexOf("empty");
             grid[row][square] = computer;
