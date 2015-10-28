@@ -23,7 +23,6 @@ var TicTacToe = React.createClass({
   },
   componentDidMount() {
     this.setWinningCombinations(this.state.grid);
-    //window.addEventListener('keydown', this.handleKeyDown);
   },
   createGridData() {
     var grid = [];
@@ -40,33 +39,34 @@ var TicTacToe = React.createClass({
       grid[0],
       grid[1],
       grid[2],
-      [grid[0][0], grid[0][1], grid[0][2]],
-      [grid[1][0], grid[1][1], grid[1][2]],
-      [grid[2][0], grid[2][1], grid[2][2]],
+      [grid[0][0], grid[1][0], grid[2][0]],
+      [grid[0][1], grid[1][1], grid[2][1]],
+      [grid[0][2], grid[1][2], grid[2][2]],
       [grid[0][0], grid[1][1], grid[2][2]],
       [grid[0][2], grid[1][1], grid[2][0]]
     ]
     this.setState({winningCombinations: winningCombinations});
+    return winningCombinations;
   },
   playerTurn(position) {
     console.log('player went at position ', position);
 
     var grid = this.state.grid;
     var player = this.state.player;
-    var winningCombinations = this.state.winningCombinations;
     grid[position[0]][position[1]] = player;
 
-    var win = this.checkForWin();
-    var emptyPositions = this.findEmptyPositions();
-    this.state.turn++;
+    var winningCombinations = this.setWinningCombinations(grid);
+    var win = this.checkForWin(winningCombinations);
+    var turn = this.state.turn;
+    turn++;
 
-    if (win == false && this.state.turn < 9) {
+    if (win == false && turn < 9) {
       this.computerTurn();
     }else {
       this.gameOver();
     }
 
-    this.setState({grid: grid, winningCombinations: winningCombinations, emptyPositions: emptyPositions})
+    this.setState({grid: grid, winningCombinations: winningCombinations, turn: turn})
   },
   computerTurn(){
 
@@ -76,10 +76,10 @@ var TicTacToe = React.createClass({
 
       var grid = _this.state.grid;
       var computer = _this.state.computer;
+      var turn = _this.state.turn;
       var player = _this.state.player;
-      var emptyPositions = _this.state.emptyPositions;
-      var winningCombinations = _this.state.winningCombinations;
-      var originalNumTurns = _this.state.turn;
+      var emptyPositions = _this.findEmptyPositions();
+      var winningCombinations = _this.setWinningCombinations(_this.state.grid);
 
       if(_this.state.turn <= 1){
         //pick random position
@@ -94,62 +94,65 @@ var TicTacToe = React.createClass({
 
         for (var i = 0; i < winningCombinations.length; i++) {
           var winningCombination = winningCombinations[i];
-          //debugger
-
           var computerCount = 0;
           var playerCount = 0;
           var emptyCount = 0;
+          var row;
 
-          for (var i = 0; i < winningCombination.length; i++) {
-            var val = winningCombination[i];
-            if (val == "empty"){
-              emptyCount++;
-            }
+          //gets the row in super hacku way! 
+          if (i >= 0 & i <= 2){
+            row = i;
+          }else {
+            row = winningCombination.indexOf("empty");
+          }
+
+          for (var x = 0; x < winningCombination.length; x++) {
+            var val = winningCombination[x];
             if (val == player){
               playerCount++;
             }
             if (val == computer){
               computerCount++;
             }
+            if (val == "empty"){
+              emptyCount++;
+            }
           };
 
-          if(computerCount == 2){
+          if(computerCount == 2 && emptyCount == 1){
             var square = winningCombination.indexOf("empty");
-            debugger
-            winningCombination[square] = computer;
+            grid[row][square] = computer;
             computerWent = true;
             break;
-          }else if(playerCount == 2){
+          }else if(playerCount == 2 && emptyCount == 1){
             var square = winningCombination.indexOf("empty");
-            debugger
-            winningCombination[square] = computer;
+            grid[row][square] = computer;
             computerWent = true;
             break;
           }
 
         };
-        //debugger
-        //check if computer made a move, if it didn't go
-        // in a random empty place for now
-
+        //check if computer made a strategic move, 
+        //if it didn't, go in a random empty place
         if (!computerWent){
-          debugger
           var randomPos = emptyPositions[Math.floor(Math.random()*emptyPositions.length)];
           grid[randomPos[0]][randomPos[1]] = computer;
         }
 
       }
 
-      var win = _this.checkForWin();
-      _this.state.turn++;
+      winningCombinations = _this.setWinningCombinations(grid);
+      var win = _this.checkForWin(winningCombinations);
+      turn++;
 
-      if (win == true && _this.state.turn == 9) {
+      if (win == true || turn == 9) {
         _this.gameOver();
       }
 
-      _this.setState({grid: grid, winningCombinations: winningCombinations, emptyPositions: emptyPositions})
+      _this.setState({grid: grid, winningCombinations: winningCombinations, turn: turn})
 
     }, 1000);
+ 
   },
   findEmptyPositions() {
     var grid = this.state.grid;
@@ -165,20 +168,42 @@ var TicTacToe = React.createClass({
     };
     return emptyPositions;
   },
-  checkForWin() {
-    var winningCombinations = this.state.winningCombinations;
+  checkForWin(winningCombinations) {
+    var player = this.state.player;
+    var computer = this.state.computer;
+    var win = false;
+
     for (var i = 0; i < winningCombinations.length; i++) {
+      
+      var computerCount = 0;
+      var playerCount = 0;
       var winningCombination = winningCombinations[i];
 
-      if((winningCombination[i] !== 'empty') && (winningCombination[i] !== winningCombination[0])) {
-        return true;
+      for (var x = 0; x < winningCombination.length; x++) {
+        var val = winningCombination[x];
+        if (val == player){
+          playerCount++;
+        }
+        if (val == computer){
+          computerCount++;
+        }
+      };
+
+      if (playerCount == 3) {
+        win = true;
+        break;
       }
-      return false;
+      if (computerCount == 3) {
+        win = true;
+        break;
+      }
     };
+
+    return win;
   },
   gameOver() {
     console.log('game over');
-    this.setState({gameOver: true})
+    this.replaceState(this.getInitialState());
   },
   render (){
     var grid = this.state.grid;

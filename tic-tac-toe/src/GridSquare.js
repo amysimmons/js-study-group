@@ -7,8 +7,8 @@ var GridSquare = React.createClass({
   },
 
   render () {
-    let className = 'grid-square ' + this.props.type;
     let position = [this.props.yPos,this.props.xPos];
+    let className = 'grid-square ' + this.props.type + ' ' + this.props.yPos;
 
     var display;
 
