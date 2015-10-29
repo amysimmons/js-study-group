@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from './Grid';
 import GridSquare from './GridSquare';
-import Score from './Score';
+import GameStatus from './GameStatus';
 
 var TicTacToe = React.createClass({
   getInitialState (){
@@ -10,7 +10,8 @@ var TicTacToe = React.createClass({
         emptyPositions,
         player = 'naught',
         computer = 'cross',
-        turn = 0;
+        turn = 0,
+        winner = false;
 
     return{
       grid: this.createGridData(),
@@ -18,7 +19,8 @@ var TicTacToe = React.createClass({
       player: player,
       computer: computer,
       turn: turn,
-      emptyPositions: emptyPositions
+      emptyPositions: emptyPositions,
+      winner: winner
     };
   },
   componentDidMount() {
@@ -43,7 +45,7 @@ var TicTacToe = React.createClass({
       [grid[0][1], grid[1][1], grid[2][1]],
       [grid[0][2], grid[1][2], grid[2][2]],
       [grid[0][0], grid[1][1], grid[2][2]],
-      [grid[0][2], grid[1][1], grid[2][0]]
+      [grid[2][0], grid[1][1], grid[0][2]]
     ]
     this.setState({winningCombinations: winningCombinations});
     return winningCombinations;
@@ -60,10 +62,10 @@ var TicTacToe = React.createClass({
     var turn = this.state.turn;
     turn++;
 
-    if (win == false && turn < 9) {
+    if (win == false && turn <= 9) {
       this.computerTurn();
     }else {
-      this.gameOver();
+      this.gameOver(win);
     }
 
     this.setState({grid: grid, winningCombinations: winningCombinations, turn: turn})
@@ -81,10 +83,17 @@ var TicTacToe = React.createClass({
       var emptyPositions = _this.findEmptyPositions();
       var winningCombinations = _this.setWinningCombinations(_this.state.grid);
 
+      var randomPos = emptyPositions[Math.floor(Math.random()*emptyPositions.length)];
+      grid[randomPos[0]][randomPos[1]] = computer;
+      console.log(emptyPositions);
+
+/*  logic commented out because square variable is inaccurate
+
       if(_this.state.turn <= 1){
         //pick random position
         var randomPos = emptyPositions[Math.floor(Math.random()*emptyPositions.length)];
         grid[randomPos[0]][randomPos[1]] = computer;
+        console.log(emptyPositions);
       }else {
         //if there are two of either naught or cross
         //in any of the winning combinations
@@ -98,8 +107,9 @@ var TicTacToe = React.createClass({
           var playerCount = 0;
           var emptyCount = 0;
           var row;
+          var square;
 
-          //gets the row in super hacku way! 
+          //gets the row in super hacky way!
           if (i >= 0 & i <= 2){
             row = i;
           }else {
@@ -119,41 +129,51 @@ var TicTacToe = React.createClass({
             }
           };
 
-          //square is wrong - it's not always the right index 
+
+          //square is wrong - it's not always the right index
           if(computerCount == 2 && emptyCount == 1){
             var square = winningCombination.indexOf("empty");
+            debugger
             grid[row][square] = computer;
+            console.log('row, square', row, square);
+            console.log(emptyPositions);
             computerWent = true;
             break;
           }else if(playerCount == 2 && emptyCount == 1){
             var square = winningCombination.indexOf("empty");
+            debugger
             grid[row][square] = computer;
+            console.log('row, square', row, square);
+            console.log(emptyPositions);
             computerWent = true;
             break;
           }
 
         };
-        //check if computer made a strategic move, 
+        //check if computer made a strategic move,
         //if it didn't, go in a random empty place
         if (!computerWent){
+          debugger
           var randomPos = emptyPositions[Math.floor(Math.random()*emptyPositions.length)];
           grid[randomPos[0]][randomPos[1]] = computer;
+          console.log(emptyPositions);
         }
 
       }
+      */
 
       winningCombinations = _this.setWinningCombinations(grid);
       var win = _this.checkForWin(winningCombinations);
       turn++;
 
-      if (win == true || turn == 9) {
-        _this.gameOver();
+      if ((win == player || win == computer) || turn > 9) {
+        _this.gameOver(win);
       }
 
-      _this.setState({grid: grid, winningCombinations: winningCombinations, turn: turn})
+      _this.setState({grid: grid, winningCombinations: winningCombinations, turn: turn, emptyPositions: emptyPositions})
 
     }, 1000);
- 
+
   },
   findEmptyPositions() {
     var grid = this.state.grid;
@@ -175,7 +195,7 @@ var TicTacToe = React.createClass({
     var win = false;
 
     for (var i = 0; i < winningCombinations.length; i++) {
-      
+
       var computerCount = 0;
       var playerCount = 0;
       var winningCombination = winningCombinations[i];
@@ -191,24 +211,30 @@ var TicTacToe = React.createClass({
       };
 
       if (playerCount == 3) {
-        win = true;
+        win = player;
         break;
       }
       if (computerCount == 3) {
-        win = true;
+        win = computer;
         break;
       }
     };
 
     return win;
   },
-  gameOver() {
+  gameOver(win) {
+    this.setState({winner: win});
     console.log('game over');
-    this.replaceState(this.getInitialState());
+  },
+  newGame(){
+    console.log('new game')
+    //this.replaceState(this.getInitialState());
   },
   render (){
     var grid = this.state.grid;
+    var winner = this.state.winner;
     var playerTurn = this.playerTurn;
+    var newGame = this.newGame;
 
     return (
       <div className="game">
@@ -217,6 +243,9 @@ var TicTacToe = React.createClass({
           rowCount="3"
           squareCount="3"
           playerTurn={playerTurn}/>
+          <GameStatus
+          winner={winner}
+          newGame={newGame}/>
       </div>
     )
   }
