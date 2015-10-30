@@ -228,7 +228,7 @@ var TicTacToe = React.createClass({
   },
   newGame(){
     console.log('new game')
-    //this.replaceState(this.getInitialState());
+    this.replaceState(this.getInitialState());
   },
   render (){
     var grid = this.state.grid;
