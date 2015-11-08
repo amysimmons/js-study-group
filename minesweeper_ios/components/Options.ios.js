@@ -12,14 +12,13 @@ var {
 var Options = React.createClass({
 
   _onPressButton(){
-   var underlayColor = {underlayColor: 'fff'};
-   return underlayColor;
+   return style={underlayColor:'#fff'};
   },
 
   render() {
     return (
      <View style={styles.optionsContainer}>
-        <TouchableHighlight style={styles.column}>
+        <TouchableHighlight style={styles.column}  onPress={this._onPressButton} underlayColor="white">
           <View style={styles.center}>
             <Icon
               name='fontawesome|flag-o'
@@ -29,7 +28,7 @@ var Options = React.createClass({
             <Text style={styles.info}>Place Flag</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.column} onPress={this._onPressButton}>
+        <TouchableHighlight style={styles.column} onPress={this._onPressButton} underlayColor="white">
           <View style={styles.center}>
             <Icon
               name='fontawesome|refresh'
@@ -53,7 +52,6 @@ var styles = StyleSheet.create({
   column: {
     flexDirection: 'column',
     width: Dimensions.get('window').width / 2,
-    backgroundColor: '#fff',
   },
   center: {
     alignItems: 'center',

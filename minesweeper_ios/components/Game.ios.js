@@ -25,6 +25,10 @@ var Game = React.createClass({
       };
   },
 
+  componentDidMount() {
+    var boardSize = this.state.boardSize;
+    this.placeMines(boardSize);
+  },
   getBoardSize (){
     var boardSize = "S";
     var rows;
@@ -53,12 +57,48 @@ var Game = React.createClass({
     for(var i = 0; i < boardSize.rows; i++){
       grid.push([]);
       for(var j = 0; j < boardSize.squares; j++){
-        grid[i].push('empty');
+        grid[i].push(
+          {
+            row: i,
+            col: j,
+            selected: false,
+            mine: false,
+            flagged: false,
+            surroundingMines: 0,
+            surroundingRevealed: false
+          }
+        );
       }
     }
     return grid;
   },
 
+  placeMines(boardSize){
+    var grid = this.state.grid;
+    var numMines = boardSize.squares;
+    var min = 0;
+    var max = boardSize.squares - 1;
+
+    getRandomInt = function(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    var mineCount = 0;
+
+    while (mineCount < numMines) {
+      var randCol = getRandomInt(min, max);
+      var randRow = getRandomInt(min, max);
+      var cell = grid[randCol][randRow];
+      if (!cell.mine){
+        cell.mine = true;
+        mineCount += 1;
+      }
+    }
+    this.calculateSurroundingMines();
+  },
+  calculateSurroundingMines(){
+    var grid = this.state.grid;
+  },
   render () {
     var grid = this.state.grid;
     var boardSize = this.state.boardSize;

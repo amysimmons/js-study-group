@@ -22,7 +22,6 @@ var Grid = React.createClass({
   },
   render: function() {
   	var grid = [];
-    console.log('gridheight in grid ', this.state.gridHeight)
      for (var i = 0; i < this.props.boardSize.rows; i++) {
       var row = (<Row squares={this.props.grid[i]} key={i} yPos={i} gridHeight={this.state.gridHeight}/>);
       grid.push(row);

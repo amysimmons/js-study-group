@@ -13,7 +13,6 @@ var Row = React.createClass({
 
     var gridRow = [];
     var gridHeight = this.props.gridHeight;
-    console.log('gridheight in row ', gridHeight)
     for (var x = 0; x < this.props.squares.length; x++) {
       var cell = <Cell type={this.props.squares[x]} key={x} yPos={this.props.yPos} xPos={x} cellHeight={gridHeight / 10}/>;
       gridRow.push(cell);
