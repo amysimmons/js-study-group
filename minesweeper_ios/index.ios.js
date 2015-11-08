@@ -10,17 +10,18 @@ var React = require('react-native');
 var {
   AppRegistry,
   StyleSheet,
-  Text,
-  View,
+  NavigatorIOS,
 } = React;
 
 var minesweeper_ios = React.createClass({
   render: function() {
     return (
-      <View style={styles.container}>
-        <Game>
-        </Game>
-      </View>
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={{
+          title: "Minesweeper Native",
+          component: Game
+        }} />
     );
   }
 });
@@ -28,20 +29,7 @@ var minesweeper_ios = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
 
 AppRegistry.registerComponent('minesweeper_ios', () => minesweeper_ios);

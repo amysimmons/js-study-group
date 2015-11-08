@@ -1,11 +1,16 @@
 import Grid from './Grid.ios.js';
+import Score from './Score.ios.js';
 
 var React = require('react-native');
 
 var {
   StyleSheet,
   Text,
+  View,
+  Dimensions,
 } = React;
+
+let windowWidth = Dimensions.get('window').width;
 
 var Game = React.createClass({
 
@@ -58,12 +63,20 @@ var Game = React.createClass({
     var boardSize = this.state.boardSize;
 
     return (
-    
-        <Grid
-          grid={grid}
+      <View style={styles.game}>
+        <Score/>
+        <Grid grid={grid}
           boardSize={boardSize}/>
-
+      </View>
     );
+  }
+});
+
+var styles = StyleSheet.create({
+  game: {
+    marginTop: 44 + 20,
+    width: windowWidth,
+    flex: 1,
   }
 });
 

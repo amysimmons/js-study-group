@@ -9,27 +9,38 @@ var {
 } = React;
 
 var Grid = React.createClass({
-
+  getInitialState () {
+      return {
+          gridHeight: this.getDimensions
+      }
+  },
+  getDimensions (event) {
+      var {x, y, width, height} = event.nativeEvent.layout;
+      this.setState({
+          gridHeight: height
+      })
+  },
   render: function() {
   	var grid = [];
-
+    console.log('gridheight in grid ', this.state.gridHeight)
      for (var i = 0; i < this.props.boardSize.rows; i++) {
-      var row = (<Row squares={this.props.grid[i]} key={i} yPos={i}/>);
+      var row = (<Row squares={this.props.grid[i]} key={i} yPos={i} gridHeight={this.state.gridHeight}/>);
       grid.push(row);
     };
 
     return (
-      <View>
+      <View style={styles.column} onLayout={this.getDimensions}>
       	{grid}
       </View>
     );
   }
 });
 
+var styles = StyleSheet.create({
+  column: {
+    flexDirection: 'column',
+    flex: 2.5,
+  }
+});
+
 export default Grid;
-
-//grid flex direction column
-//row flex direction row
-//cell 
-
-
