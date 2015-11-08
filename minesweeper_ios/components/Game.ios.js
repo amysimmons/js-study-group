@@ -1,5 +1,6 @@
 import Grid from './Grid.ios.js';
 import Score from './Score.ios.js';
+import Options from './Options.ios.js';
 
 var React = require('react-native');
 
@@ -67,6 +68,7 @@ var Game = React.createClass({
         <Score/>
         <Grid grid={grid}
           boardSize={boardSize}/>
+        <Options/>
       </View>
     );
   }

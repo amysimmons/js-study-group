@@ -14,7 +14,7 @@ var Cell = React.createClass({
      console.log('cellheight in cell ', cellHeight)
     return (
       <View style={[styles.cell, {height: cellHeight}]}>
-      	<Text>Cell</Text>
+      	<Text></Text>
       </View>
     );
   }
@@ -23,6 +23,10 @@ var Cell = React.createClass({
 var styles = StyleSheet.create({
   cell: {
     width: Dimensions.get('window').width / 10,
+    backgroundColor: '#00A6A6',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#fff'
   }
 });
 
