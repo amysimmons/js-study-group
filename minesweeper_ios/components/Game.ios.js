@@ -98,6 +98,62 @@ var Game = React.createClass({
   },
   calculateSurroundingMines(){
     var grid = this.state.grid;
+    for (var i = 0; i < grid.length; i++) {
+      var row = grid[i];
+      for (var j = 0; j < row.length; j++) {
+        var cell = row[j];
+        var surroundingCells = this.getSurroundingCells(cell);
+        for (var k = 0; k < surroundingCells.length; k++) {
+          var surroundingCell = surroundingCells[k];
+          if (surroundingCell.mine){ 
+            cell.surroundingMines += 1; 
+          }
+        };
+      };
+    };
+  },
+  getSurroundingCells(cell){
+    var grid = this.state.grid;
+
+    // above cells
+    if (cell.row > 0) {
+      var cellsAbove = [
+        grid[cell.row - 1][cell.col - 1],
+        grid[cell.row - 1][cell.col],
+        grid[cell.row - 1][cell.col + 1]
+      ]
+    } else {
+      cellsAbove = [];
+    }
+
+    // side cells
+    var cellsAside = [];
+    if (cell.col > 0){
+      cellsAside.push(grid[cell.row][cell.col - 1]);
+    }
+    if (cell.col < grid.length - 1) {
+      cellsAside.push(grid[cell.row][cell.col + 1]);
+    }
+
+    // cells below
+    if (cell.row < grid.length - 1){
+      var cellsBelow = [
+        grid[cell.row + 1][cell.col - 1],
+        grid[cell.row + 1][cell.col],
+        grid[cell.row + 1][cell.col + 1]
+      ]
+    } else {
+      cellsBelow = [];
+    }
+
+    // calc cells
+    debugger
+    var surroundingCells = Array.of(cellsAbove, cellsAside, cellsBelow);
+
+    //t.push(...cellsBelow, ...cellsAside, ...cellsAbove);
+
+    debugger
+    return surroundingCells;
   },
   render () {
     var grid = this.state.grid;
@@ -112,6 +168,8 @@ var Game = React.createClass({
       </View>
     );
   }
+
+
 });
 
 var styles = StyleSheet.create({
