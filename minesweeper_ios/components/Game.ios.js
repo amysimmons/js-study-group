@@ -111,6 +111,7 @@ var Game = React.createClass({
         };
       };
     };
+    console.log(grid);
   },
   getSurroundingCells(cell){
     var grid = this.state.grid;
@@ -147,12 +148,8 @@ var Game = React.createClass({
     }
 
     // calc cells
-    debugger
-    var surroundingCells = Array.of(cellsAbove, cellsAside, cellsBelow);
-
-    //t.push(...cellsBelow, ...cellsAside, ...cellsAbove);
-
-    debugger
+    var surroundingCells = cellsAbove.concat(cellsAside).concat(cellsBelow);
+    surroundingCells = surroundingCells.filter(Boolean);
     return surroundingCells;
   },
   render () {
