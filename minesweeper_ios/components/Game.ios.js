@@ -18,10 +18,12 @@ var Game = React.createClass({
   getInitialState (){
       var boardSize = this.getBoardSize();
       var grid = this.createGridData(boardSize);
+      var placeFlag = false;
 
       return{
         boardSize: boardSize,
-        grid: grid
+        grid: grid,
+        placeFlag: placeFlag
       };
   },
 
@@ -152,16 +154,39 @@ var Game = React.createClass({
     surroundingCells = surroundingCells.filter(Boolean);
     return surroundingCells;
   },
+
+  handleResetPress(){
+    console.log('reset press')
+  },
+
+  handleFlagPress(){
+    var placeFlag = this.state.placeFlag;
+      console.log(this.state.placeFlag);
+    if (!placeFlag) {
+      placeFlag = true;
+    }else{
+      placeFlag = false;
+    }
+    this.setState({placeFlag: placeFlag})
+    console.log(this.state.placeFlag);
+
+  },
   render () {
     var grid = this.state.grid;
     var boardSize = this.state.boardSize;
+    var handleResetPress = this.handleResetPress;
+    var handleFlagPress = this.handleFlagPress;
+    var placeFlag = this.state.placeFlag;
 
     return (
       <View style={styles.game}>
         <Score/>
         <Grid grid={grid}
-          boardSize={boardSize}/>
-        <Options/>
+          boardSize={boardSize}
+          placeFlag={placeFlag}/>
+        <Options
+          handleFlagPress={handleFlagPress}
+          handleResetPress={handleResetPress}/>
       </View>
     );
   }
