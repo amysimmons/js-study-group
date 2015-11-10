@@ -9,12 +9,17 @@ var {
 
 var Cell = React.createClass({
   render: function() {
-    
+
     var cellHeight = this.props.cellHeight;
+    var xPos = this.props.xPos;
+    var yPos = this.props.yPos;
+    var handleCellPress = this.props.handleCellPress(xPos, yPos);
+
     return (
-      <View style={[styles.cell, {height: cellHeight}]}>
-      	<Text></Text>
-      </View>
+      <TouchableHighlight style={} onPress={handleCellPress} underlayColor="#00A6A6">
+        <View style={[styles.cell, {height: cellHeight}]}>
+        </View>
+      </TouchableHighlight>
     );
   }
 });

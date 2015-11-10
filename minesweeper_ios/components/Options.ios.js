@@ -11,8 +11,6 @@ var {
 
 var Options = React.createClass({
 
-
-
   render() {
     return (
      <View style={styles.optionsContainer}>

@@ -14,7 +14,7 @@ var Row = React.createClass({
     var gridRow = [];
     var gridHeight = this.props.gridHeight;
     for (var x = 0; x < this.props.squares.length; x++) {
-      var cell = <Cell type={this.props.squares[x]} key={x} yPos={this.props.yPos} xPos={x} cellHeight={gridHeight / 10}/>;
+      var cell = <Cell type={this.props.squares[x]} key={x} yPos={this.props.yPos} xPos={x} cellHeight={gridHeight / 10} handleCellPress={this.props.handleCellPress}/>;
       gridRow.push(cell);
     };
 

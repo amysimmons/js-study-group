@@ -107,8 +107,8 @@ var Game = React.createClass({
         var surroundingCells = this.getSurroundingCells(cell);
         for (var k = 0; k < surroundingCells.length; k++) {
           var surroundingCell = surroundingCells[k];
-          if (surroundingCell.mine){ 
-            cell.surroundingMines += 1; 
+          if (surroundingCell.mine){
+            cell.surroundingMines += 1;
           }
         };
       };
@@ -155,8 +155,23 @@ var Game = React.createClass({
     return surroundingCells;
   },
 
-  handleResetPress(){
-    console.log('reset press')
+  revealSurroundingCells(clicked) {
+    console.log('revealing surrounding cells');
+  },
+
+  handleCellPress(xPos, yPos) {
+
+    var clicked = Grid[xPos][yPos];
+
+    if (clicked.mine){
+      var result = "You lose!"
+      Minesweeper.gameOver(result);
+    }else if (!clicked.selected && !clicked.flagged) {
+      clicked.selected = true;
+      if(clicked.surroundingMines === 0){
+        Minesweeper.revealSurroundingCells(clicked);
+      }
+    }
   },
 
   handleFlagPress(){
@@ -171,19 +186,35 @@ var Game = React.createClass({
     console.log(this.state.placeFlag);
 
   },
+
+  handleResetPress(){
+    console.log('reset press')
+  },
+
+  gameOver(result){
+    console.log('game over');
+
+  },
+
+  newGame(){
+    console.log('new game');
+  },
+
   render () {
     var grid = this.state.grid;
     var boardSize = this.state.boardSize;
     var handleResetPress = this.handleResetPress;
     var handleFlagPress = this.handleFlagPress;
     var placeFlag = this.state.placeFlag;
+    var handleCellPress = this.handleCellPress;
 
     return (
       <View style={styles.game}>
         <Score/>
         <Grid grid={grid}
           boardSize={boardSize}
-          placeFlag={placeFlag}/>
+          placeFlag={placeFlag}
+          handleCellPress={handleCellPress}/>
         <Options
           handleFlagPress={handleFlagPress}
           handleResetPress={handleResetPress}/>
@@ -206,6 +237,6 @@ export default Game;
 
 //grid should have flex direction of column
 //row should have a flex direction of row
-//cell 
+//cell
 
 
