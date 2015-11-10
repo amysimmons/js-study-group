@@ -155,25 +155,6 @@ var Game = React.createClass({
     return surroundingCells;
   },
 
-  revealSurroundingCells(clicked) {
-    console.log('revealing surrounding cells');
-  },
-
-  handleCellPress(xPos, yPos) {
-
-    var clicked = Grid[xPos][yPos];
-
-    if (clicked.mine){
-      var result = "You lose!"
-      Minesweeper.gameOver(result);
-    }else if (!clicked.selected && !clicked.flagged) {
-      clicked.selected = true;
-      if(clicked.surroundingMines === 0){
-        Minesweeper.revealSurroundingCells(clicked);
-      }
-    }
-  },
-
   handleFlagPress(){
     var placeFlag = this.state.placeFlag;
       console.log(this.state.placeFlag);
@@ -185,6 +166,41 @@ var Game = React.createClass({
     this.setState({placeFlag: placeFlag})
     console.log(this.state.placeFlag);
 
+  },
+
+  // handleCellPress(xPos, yPos) {
+  //   console.log('pressing me')
+  //   var grid = this.state.grid;
+  //   var clicked = grid[xPos][yPos];
+  //   console.log('cell: ', xPos, yPos);
+
+  //   if (this.state.placeFlag) {
+  //     this.placeFlag(clicked);
+  //   }else{
+  //     this.revealCell(clicked);
+  //   }
+  // },
+
+  placeFlag(clicked) {
+    console.log('placing flag')
+  },
+
+  revealCell(clicked){
+    console.log('revealing cell')
+
+    if (clicked.mine){
+      var result = "You lose!"
+      this.gameOver(result);
+    }else if (!clicked.selected && !clicked.flagged) {
+      clicked.selected = true;
+      if(clicked.surroundingMines === 0){
+        this.revealSurroundingCells(clicked);
+      }
+    }
+  },
+
+  revealSurroundingCells(clicked) {
+    console.log('revealing surrounding cells');
   },
 
   handleResetPress(){

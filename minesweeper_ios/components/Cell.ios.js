@@ -5,18 +5,34 @@ var {
   Text,
   View,
   Dimensions,
+  TouchableHighlight,
 } = React;
 
 var Cell = React.createClass({
-  render: function() {
 
-    var cellHeight = this.props.cellHeight;
+  handleCellPress(xPos, yPos) {
+    console.log('pressing me')
+    var grid = this.props.grid;
     var xPos = this.props.xPos;
     var yPos = this.props.yPos;
-    var handleCellPress = this.props.handleCellPress(xPos, yPos);
+    var clicked = grid[xPos][yPos];
+    console.log('cell: ', xPos, yPos);
+
+    if (this.props.placeFlag) {
+      console.log('placing flag')
+      //this.props.placeFlag(clicked);
+    }else{
+       console.log('revealing cell')
+      //this.props.revealCell(clicked);
+    }
+  },
+
+  render() {
+    var cellHeight = this.props.cellHeight;
+    var handleCellPress = this.handleCellPress;
 
     return (
-      <TouchableHighlight style={} onPress={handleCellPress} underlayColor="#00A6A6">
+      <TouchableHighlight onPress={handleCellPress} underlayColor="#00A6A6">
         <View style={[styles.cell, {height: cellHeight}]}>
         </View>
       </TouchableHighlight>
