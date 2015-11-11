@@ -170,23 +170,30 @@ var Game = React.createClass({
     this.setState({placeFlag: placeFlag, placeFlagColor: placeFlagColor})
   },
 
-  placeFlag(clicked) {
+  flagCell(clicked) {
     console.log('placing flag');
+    //show the flag
+    var grid = this.state.grid;
     clicked.flagged = true;
+    this.setState({grid:grid})
   },
 
   revealCell(clicked){
     console.log('revealing cell')
-
+    var grid = this.state.grid;
     if (clicked.mine){
       var result = "You lose!"
+      this.setState({grid:grid})
       this.gameOver(result);
     }else if (!clicked.selected && !clicked.flagged) {
+      //show the number
       clicked.selected = true;
+      this.setState({grid:grid})
       if(clicked.surroundingMines === 0){
         this.revealSurroundingCells(clicked);
       }
     }
+    this.setState({grid:grid})
   },
 
   revealSurroundingCells(clicked) {
@@ -214,6 +221,8 @@ var Game = React.createClass({
     var placeFlag = this.state.placeFlag;
     var placeFlagColor = this.state.placeFlagColor;
     var handleCellPress = this.handleCellPress;
+    var revealCell = this.revealCell;
+    var flagCell = this.flagCell;
 
     return (
       <View style={styles.game}>
@@ -221,7 +230,9 @@ var Game = React.createClass({
         <Grid grid={grid}
           boardSize={boardSize}
           placeFlag={placeFlag}
-          handleCellPress={handleCellPress}/>
+          handleCellPress={handleCellPress}
+          revealCell={revealCell}
+          flagCell={flagCell}/>
         <Options
           handleFlagPress={handleFlagPress}
           handleResetPress={handleResetPress}

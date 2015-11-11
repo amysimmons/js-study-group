@@ -23,7 +23,17 @@ var Grid = React.createClass({
   render: function() {
   	var grid = [];
      for (var i = 0; i < this.props.boardSize.rows; i++) {
-      var row = (<Row squares={this.props.grid[i]} key={i} yPos={i} gridHeight={this.state.gridHeight} handleCellPress={this.props.handleCellPress} grid={this.props.grid} placeFlag={this.props.placeFlag}/>);
+      var row = (
+        <Row 
+        squares={this.props.grid[i]} 
+        key={i} yPos={i} 
+        gridHeight={this.state.gridHeight} 
+        handleCellPress={this.props.handleCellPress} 
+        grid={this.props.grid} 
+        placeFlag={this.props.placeFlag}
+        revealCell={this.props.revealCell}
+        flagCell={this.props.flagCell}/>
+      );
       grid.push(row);
     };
 
