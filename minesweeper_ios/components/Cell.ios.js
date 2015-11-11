@@ -64,7 +64,7 @@ var Cell = React.createClass({
       );
     }
     //otherwise show surrounding mine count
-    else if (cell.selected){
+    else if (cell.selected && !cell.mine && !cell.flagged){
       return (
         <TouchableHighlight onPress={handleCellPress} underlayColor="#00A6A6">
           <View style={[styles.cell, styles.cellSurroundingMines, {height: cellHeight}]}>
@@ -72,14 +72,15 @@ var Cell = React.createClass({
           </View>
         </TouchableHighlight>
       ); 
+    } 
+    else {
+      return (
+        <TouchableHighlight onPress={handleCellPress} underlayColor="#00A6A6">
+          <View style={[styles.cell, {height: cellHeight}]}>
+          </View>
+        </TouchableHighlight>
+      );
     }
-
-    return (
-      <TouchableHighlight onPress={handleCellPress} underlayColor="#00A6A6">
-        <View style={[styles.cell, {height: cellHeight}]}>
-        </View>
-      </TouchableHighlight>
-    );
   }
 });
 
@@ -92,13 +93,13 @@ var styles = StyleSheet.create({
     borderColor: '#fff'
   },
   cellMine: {
-    backgroundColor: '#FFFFE',
+    backgroundColor: '#FFFFE3',
   },
   cellFlag: {
-    backgroundColor: '#FFFFE',
+    backgroundColor: '#FFFFE3',
   },
   cellSurroundingMines: {
-    backgroundColor: '#FFFFE',
+    backgroundColor: '#FFFFE3',
   },
   flag: {
     width: 50,
