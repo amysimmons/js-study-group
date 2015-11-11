@@ -68,7 +68,7 @@ var Cell = React.createClass({
       return (
         <TouchableHighlight onPress={handleCellPress} underlayColor="#00A6A6">
           <View style={[styles.cell, styles.cellSurroundingMines, {height: cellHeight}]}>
-            <Text numberOfLines={1}>{cell.surroundingMines.toString()}</Text>
+            <Text style={styles.mineCount} numberOfLines={1}>{cell.surroundingMines.toString()}</Text>
           </View>
         </TouchableHighlight>
       ); 
@@ -90,7 +90,8 @@ var styles = StyleSheet.create({
     backgroundColor: '#00A6A6',
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: '#fff'
+    borderColor: '#fff',
+    alignItems: 'center',
   },
   cellMine: {
     backgroundColor: '#FFFFE3',
@@ -100,6 +101,9 @@ var styles = StyleSheet.create({
   },
   cellSurroundingMines: {
     backgroundColor: '#FFFFE3',
+  },
+  mineCount: {
+    fontSize: 18,
   },
   flag: {
     width: 50,

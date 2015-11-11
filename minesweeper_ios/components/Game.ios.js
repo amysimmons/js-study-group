@@ -209,7 +209,15 @@ var Game = React.createClass({
 
   gameOver(result){
     console.log('game over');
-
+    var grid = this.state.grid;
+     for (var i = 0; i < grid.length; i++) {
+        var row = grid[i];
+        for (var j = 0; j < row.length; j++) {
+          var cell = row[j];
+          cell.selected = true;
+        };
+      };
+      this.setState({grid: grid});
   },
 
   newGame(){
