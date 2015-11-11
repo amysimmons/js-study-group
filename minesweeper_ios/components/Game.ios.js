@@ -20,12 +20,14 @@ var Game = React.createClass({
       var grid = this.createGridData(boardSize);
       var placeFlag = false;
       var placeFlagColor = '#7F888D';
+      var flagCount = 0;
 
       return{
         boardSize: boardSize,
         grid: grid,
         placeFlag: placeFlag,
         placeFlagColor: placeFlagColor,
+        flagCount: flagCount
       };
   },
 
@@ -160,6 +162,7 @@ var Game = React.createClass({
   handleFlagPress(){
     var placeFlag = this.state.placeFlag;
     var placeFlagColor = this.state.placeFlagColor;
+
     if (!placeFlag) {
       placeFlag = true;
       placeFlagColor = '#FF2469'
@@ -167,19 +170,31 @@ var Game = React.createClass({
       placeFlag = false;
       placeFlagColor = '#7F888D'
     }
+
     this.setState({placeFlag: placeFlag, placeFlagColor: placeFlagColor})
   },
 
   flagCell(clicked) {
+    console.log('flagging cell');
+    // debugger
     var grid = this.state.grid;
+    var flagCount = this.state.flagCount;
+    var boardSize = this.state.boardSize;
 
     if (clicked.flagged) {
       clicked.flagged = false;
+      clicked.selected = false;
+      flagCount--;
     } else {
-      clicked.flagged = true;
+      if(flagCount < boardSize.squares){
+        clicked.flagged = true;
+        clicked.selected = true;
+        flagCount++;
+        console.log(flagCount);
+      }
     }
 
-    this.setState({grid:grid})
+    this.setState({grid:grid, flagCount:flagCount})
   },
 
   revealCell(clicked){
@@ -193,14 +208,56 @@ var Game = React.createClass({
     }else if (!clicked.selected && !clicked.flagged) {
       clicked.selected = true;
       this.setState({grid:grid})
+      this.checkForWin();
       if(clicked.surroundingMines === 0){
         this.revealSurroundingCells(clicked);
       }
     }
   },
 
+  checkForWin(){
+    //if all non mine cells are selected
+    //if num flags = num mines 
+    var grid = this.state.grid;
+
+    for (var i = 0; i < grid.length; i++) {
+      var row = grid[i];
+      for (var j = 0; j < row.length; j++) {
+        var cell = row[j];
+        if(!cell.selected){
+          return false;
+        }
+      };
+    };
+    console.log('win');
+    return true;
+  },
+
   revealSurroundingCells(clicked) {
     console.log('revealing surrounding cells');
+    var grid = this.state.grid;
+    var cell = clicked;
+
+    if(cell.surroundingRevealed){
+      return
+    }
+
+    cell.surroundingRevealed = true;
+
+    var surroundingCells = this.getSurroundingCells(cell);
+
+    // shows surrounding mineCount (which is 0) for all surrounding cells
+    for (var i = 0; i < surroundingCells.length; i++) {
+      var surroundingCell = surroundingCells[i];
+      surroundingCell.selected = true;
+      this.setState({grid:grid});
+
+      // if any of the surrounding cells are 0, reveal its surround cells
+      if(surroundingCell.surroundingMines === 0){
+        this.revealSurroundingCells(surroundingCell);
+      }
+
+    };
   },
 
   handleResetPress(){
