@@ -20,6 +20,7 @@ var Cell = React.createClass({
 
     if (this.props.placeFlag) {
       console.log('placing flag')
+       clicked.flagged = true;
       //this.props.placeFlag(clicked);
     }else{
        console.log('revealing cell')

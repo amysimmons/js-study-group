@@ -19,11 +19,13 @@ var Game = React.createClass({
       var boardSize = this.getBoardSize();
       var grid = this.createGridData(boardSize);
       var placeFlag = false;
+      var placeFlagColor = '#7F888D';
 
       return{
         boardSize: boardSize,
         grid: grid,
-        placeFlag: placeFlag
+        placeFlag: placeFlag,
+        placeFlagColor: placeFlagColor,
       };
   },
 
@@ -157,32 +159,20 @@ var Game = React.createClass({
 
   handleFlagPress(){
     var placeFlag = this.state.placeFlag;
-      console.log(this.state.placeFlag);
+    var placeFlagColor = this.state.placeFlagColor;
     if (!placeFlag) {
       placeFlag = true;
+      placeFlagColor = '#FF2469'
     }else{
       placeFlag = false;
+      placeFlagColor = '#7F888D'
     }
-    this.setState({placeFlag: placeFlag})
-    console.log(this.state.placeFlag);
-
+    this.setState({placeFlag: placeFlag, placeFlagColor: placeFlagColor})
   },
 
-  // handleCellPress(xPos, yPos) {
-  //   console.log('pressing me')
-  //   var grid = this.state.grid;
-  //   var clicked = grid[xPos][yPos];
-  //   console.log('cell: ', xPos, yPos);
-
-  //   if (this.state.placeFlag) {
-  //     this.placeFlag(clicked);
-  //   }else{
-  //     this.revealCell(clicked);
-  //   }
-  // },
-
   placeFlag(clicked) {
-    console.log('placing flag')
+    console.log('placing flag');
+    clicked.flagged = true;
   },
 
   revealCell(clicked){
@@ -222,6 +212,7 @@ var Game = React.createClass({
     var handleResetPress = this.handleResetPress;
     var handleFlagPress = this.handleFlagPress;
     var placeFlag = this.state.placeFlag;
+    var placeFlagColor = this.state.placeFlagColor;
     var handleCellPress = this.handleCellPress;
 
     return (
@@ -233,7 +224,8 @@ var Game = React.createClass({
           handleCellPress={handleCellPress}/>
         <Options
           handleFlagPress={handleFlagPress}
-          handleResetPress={handleResetPress}/>
+          handleResetPress={handleResetPress}
+          placeFlagColor={placeFlagColor}/>
       </View>
     );
   }

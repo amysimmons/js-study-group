@@ -10,7 +10,6 @@ var {
 } = React;
 
 var Options = React.createClass({
-
   render() {
     return (
      <View style={styles.optionsContainer}>
@@ -19,7 +18,7 @@ var Options = React.createClass({
             <Icon
               name='fontawesome|flag-o'
               size={30}
-              color='#7F888D'
+              color={this.props.placeFlagColor}
               style={styles.flag}/>
             <Text style={styles.info}>Place Flag</Text>
           </View>
