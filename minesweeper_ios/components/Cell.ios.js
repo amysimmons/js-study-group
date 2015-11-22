@@ -43,7 +43,7 @@ var Cell = React.createClass({
             <Icon
               name='fontawesome|flag-o'
               size={30}
-              color='#7F888D'
+              color='#FF2469'
               style={styles.flag}/>
           </View>
         </TouchableHighlight>
@@ -57,7 +57,7 @@ var Cell = React.createClass({
             <Icon
               name='fontawesome|bomb'
               size={30}
-              color='#7F888D'
+              color='#FF2469'
               style={styles.bomb}/>
           </View>
         </TouchableHighlight>
@@ -104,6 +104,8 @@ var styles = StyleSheet.create({
   },
   mineCount: {
     fontSize: 18,
+    color: '#7F888D',
+    fontWeight: "600"
   },
   flag: {
     width: 30,

@@ -336,8 +336,6 @@ var Game = React.createClass({
       </View>
     );
   }
-
-
 });
 
 var styles = StyleSheet.create({
