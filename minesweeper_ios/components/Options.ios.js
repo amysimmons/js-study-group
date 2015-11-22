@@ -20,7 +20,8 @@ var Options = React.createClass({
               size={30}
               color={this.props.placeFlagColor}
               style={styles.flag}/>
-            <Text style={styles.info}>Place Flag</Text>
+            <Text 
+              style={[styles.info, {color: this.props.placeFlagColor}]}>Place Flag</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={styles.column} onPress={this.props.handleResetPress} underlayColor="white">
@@ -53,8 +54,8 @@ var styles = StyleSheet.create({
   },
   info: {
     flexDirection: 'row',
-    color: '#7F888D',
     fontSize: 18,
+    color: '#7F888D',
   },
   flag: {
     width: 50,
