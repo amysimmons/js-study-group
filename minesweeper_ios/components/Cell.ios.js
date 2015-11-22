@@ -106,13 +106,13 @@ var styles = StyleSheet.create({
     fontSize: 18,
   },
   flag: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     flexDirection: 'row'
   },
   bomb: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     flexDirection: 'row'
   }
 });

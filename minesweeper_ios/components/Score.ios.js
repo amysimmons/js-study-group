@@ -10,10 +10,11 @@ var {
 
 var Score = React.createClass({
   render: function() {
+    var boardSize = this.props.boardSize;
     return (
       <View style={styles.scoreContainer}>
       	<View style={styles.column}>
-          <Text style={styles.info}>10</Text>
+          <Text style={styles.info}>{boardSize.squares}</Text>
           <Icon
             name='fontawesome|bomb'
             size={30}
@@ -21,7 +22,7 @@ var Score = React.createClass({
             style={styles.bomb}/>
         </View>
         <View style={styles.column}>
-          <Text style={styles.info}>56</Text>
+          <Text style={styles.info}>{this.props.getMinutes()}:{this.props.getSeconds()}</Text>
           <Icon
             name='fontawesome|clock-o'
             size={30}

@@ -22,6 +22,7 @@ var Game = React.createClass({
     var placeFlagColor = '#7F888D';
     var flagCount = 0;
     var win = false;
+    //var timer = this.startTimer();
 
     return {
       boardSize: boardSize,
@@ -29,13 +30,37 @@ var Game = React.createClass({
       placeFlag: placeFlag,
       placeFlagColor: placeFlagColor,
       flagCount: flagCount,
-      win: win
+      win: win,
+      //timer: timer,
+      secondsElapse: 0
     };
   },
 
   componentDidMount() {
     var boardSize = this.state.boardSize;
     this.placeMines(boardSize);
+    this.startStopwatch();
+  },
+
+  startStopwatch(){
+    console.log('starting');
+    var _this = this;
+
+    this.incrementer = setInterval(function(){
+      _this.setState({
+        secondsElapse: (_this.state.secondsElapse + 1)
+      })
+    }, 1000);
+  },
+  resetStopwatch(){
+    console.log('resetting');
+    this.replaceState(this.getInitialState());
+  },
+  getSeconds(){
+    return ('0' + this.state.secondsElapse % 60).slice(-2);
+  },
+  getMinutes(){
+    return Math.floor(this.state.secondsElapse / 60);
   },
   
   getBoardSize (){
@@ -77,11 +102,7 @@ var Game = React.createClass({
         );
       }
     }
-
-    // this.placeMines(grid, boardSize);
-
     return grid;
-
   },
 
   placeMines(boardSize){
@@ -294,10 +315,14 @@ var Game = React.createClass({
     var handleCellPress = this.handleCellPress;
     var revealCell = this.revealCell;
     var flagCell = this.flagCell;
+    var secondsElapse = this.state.secondsElapse;
 
     return (
       <View style={styles.game}>
-        <Score/>
+        <Score boardSize={boardSize}
+          secondsElapse={secondsElapse}
+          getSeconds={this.getSeconds}
+          getMinutes={this.getMinutes}/>
         <Grid grid={grid}
           boardSize={boardSize}
           placeFlag={placeFlag}
