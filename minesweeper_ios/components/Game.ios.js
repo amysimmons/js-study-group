@@ -16,25 +16,28 @@ let windowWidth = Dimensions.get('window').width;
 var Game = React.createClass({
 
   getInitialState (){
-      var boardSize = this.getBoardSize();
-      var grid = this.createGridData(boardSize);
-      var placeFlag = false;
-      var placeFlagColor = '#7F888D';
-      var flagCount = 0;
+    var boardSize = this.getBoardSize();
+    var grid = this.createGridData(boardSize);
+    var placeFlag = false;
+    var placeFlagColor = '#7F888D';
+    var flagCount = 0;
+    var win = false;
 
-      return{
-        boardSize: boardSize,
-        grid: grid,
-        placeFlag: placeFlag,
-        placeFlagColor: placeFlagColor,
-        flagCount: flagCount
-      };
+    return {
+      boardSize: boardSize,
+      grid: grid,
+      placeFlag: placeFlag,
+      placeFlagColor: placeFlagColor,
+      flagCount: flagCount,
+      win: win
+    };
   },
 
   componentDidMount() {
     var boardSize = this.state.boardSize;
     this.placeMines(boardSize);
   },
+  
   getBoardSize (){
     var boardSize = "S";
     var rows;
@@ -53,9 +56,7 @@ var Game = React.createClass({
     }
 
     squares = rows;
-
     return {rows: rows, squares: squares};
-
   },
 
   createGridData (boardSize){
@@ -76,7 +77,11 @@ var Game = React.createClass({
         );
       }
     }
+
+    // this.placeMines(grid, boardSize);
+
     return grid;
+
   },
 
   placeMines(boardSize){
@@ -176,7 +181,6 @@ var Game = React.createClass({
 
   flagCell(clicked) {
     console.log('flagging cell');
-    // debugger
     var grid = this.state.grid;
     var flagCount = this.state.flagCount;
     var boardSize = this.state.boardSize;
@@ -216,9 +220,8 @@ var Game = React.createClass({
   },
 
   checkForWin(){
-    //if all non mine cells are selected
-    //if num flags = num mines 
     var grid = this.state.grid;
+    var win = this.state.win;
 
     for (var i = 0; i < grid.length; i++) {
       var row = grid[i];
@@ -229,8 +232,8 @@ var Game = React.createClass({
         }
       };
     };
-    console.log('win');
-    return true;
+    win = true;
+    this.setState({win:win});
   },
 
   revealSurroundingCells(clicked) {
@@ -261,7 +264,11 @@ var Game = React.createClass({
   },
 
   handleResetPress(){
-    this.replaceState(this.getInitialState());
+    var boardSize = this.state.boardSize;
+    var that = this;
+    //whatever the function is will be called
+    //asynchronously after the the state has been set 
+    this.setState(this.getInitialState(), () => that.placeMines(boardSize));
   },
 
   gameOver(result){
@@ -275,10 +282,6 @@ var Game = React.createClass({
         };
       };
       this.setState({grid: grid});
-  },
-
-  newGame(){
-    console.log('new game');
   },
 
   render () {
