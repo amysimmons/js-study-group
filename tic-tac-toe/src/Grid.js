@@ -12,7 +12,7 @@ var Grid = React.createClass({
 
     return (
       <div className="grid">
-      {grid}
+        {grid}
       </div>
     )
   },
