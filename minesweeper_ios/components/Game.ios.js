@@ -22,7 +22,6 @@ var Game = React.createClass({
     var placeFlagColor = '#7F888D';
     var flagCount = 0;
     var win = false;
-    //var timer = this.startTimer();
 
     return {
       boardSize: boardSize,
@@ -31,7 +30,6 @@ var Game = React.createClass({
       placeFlagColor: placeFlagColor,
       flagCount: flagCount,
       win: win,
-      //timer: timer,
       secondsElapse: 0
     };
   },
