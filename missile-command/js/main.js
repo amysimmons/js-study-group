@@ -90,7 +90,25 @@ App = {
 		var playerMissile = new App.playerMissile();
 		playerMissile.endPosX = event.clientX;
 		playerMissile.endPosY = event.clientY;
+		App.calculateExplosionZone(playerMissile);
 		App.launchPlayerMissile(playerMissile);
+	},
+
+	calculateExplosionZone: function(missile){
+		var centerX = missile.endPosX;
+		var centerY = missile.endPosY;
+		var radius = 40;
+
+		var explosionZonePoints = [];
+
+		for(var degree=0;degree<360;degree++){
+		    var radians = degree * Math.PI/180;
+		    var x = centerX + radius * Math.cos(radians);
+		    var y = centerY + radius * Math.sin(radians);
+		    explosionZonePoints.push({x:x,y:y});
+		}
+		console.log('explosion points', explosionZonePoints);
+		return explosionZonePoints;
 	},
 
 	launchPlayerMissile: function(playerMissile){
@@ -137,21 +155,41 @@ App = {
 		}
 
 		function animate() {
+
 		    if (t < points.length - 1) {
 		    	//slows down the animation 
 		    	var framesPerSecond = 10;
 			   	setTimeout(function(){
 		    		requestAnimationFrame(animate);
 		    	}, 1000 / framesPerSecond);
-		    }
+		    }else {
+				animateExplosion()	
+			}	    
 		    // draw a line segment from the last waypoint
 		    // to the current waypoint
 		    ctx.beginPath();
 		    ctx.moveTo(points[t - 1].x, points[t - 1].y);
 		    ctx.lineTo(points[t].x, points[t].y);
 		    ctx.stroke();
-		    // increment "t" to get the next waypoint
-		    t++;
+		   
+		   	// increment "t" to get the next waypoint
+		   	t++;
+		}
+
+		function animateExplosion() {
+	    	var explosionZonePoints = App.calculateExplosionZone(playerMissile);
+	    	ctx.beginPath();
+			ctx.moveTo(explosionZonePoints[0].x,explosionZonePoints[0].y);
+			for(var i=1;i<explosionZonePoints.length;i++){
+			    ctx.lineTo(explosionZonePoints[i].x,explosionZonePoints[i].y);
+			}
+
+			ctx.closePath();
+			ctx.fillStyle="skyblue";
+			ctx.fill();
+			ctx.strokeStyle="lightgray";
+			ctx.lineWidth=3;
+			ctx.stroke()
 		}
 	},
 
