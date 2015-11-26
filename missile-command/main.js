@@ -156,9 +156,6 @@ App = {
 	},
 
 	initEvents: function(){
-
-		//$('body').on('click', 'submit', Minesweeper.sizeOfBoard);
-
 	    $('body').on('mousedown', '#canvas', function(event) {
 	      App.generatePlayerMissile(event);
 	    });
