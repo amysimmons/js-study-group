@@ -1,5 +1,7 @@
 http://jsfiddle.net/m1erickson/7faRQ/
 
+http://stackoverflow.com/questions/18342216/how-to-get-an-array-of-coordinates-that-make-up-a-circle-in-canvas
+
 // function draw() {
 // 	var svg = d3.select('svg');
 
@@ -25,3 +27,4 @@ http://jsfiddle.net/m1erickson/7faRQ/
 // }
 
 // draw()
+
