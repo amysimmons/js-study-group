@@ -2,6 +2,7 @@ function Game () {
 	this.level = 1;
 	this.score = 0;
 	this.enemyMissiles = [];
+	this.running = true;
 
 	var game = this;
 
@@ -12,7 +13,7 @@ function Game () {
 	_.times(this.level * 4, this.generateEnemyMissile, this);
 }
 
-Game.prototype.generatePlayerMissile = function(event){
+Game.prototype.generatePlayerMissile = function(event) {
 	var playerMissile = new PlayerMissile();
 	var game = this;
 	playerMissile.endPosX = event.clientX;
@@ -41,6 +42,7 @@ Game.prototype.generatePlayerMissile = function(event){
 	animate(points);
 
 	function animate() {
+		if (!game.running) return;
 	    if (t < points.length - 1) {
 	    	//slows down the animation 
 	    	var framesPerSecond = 1000;
@@ -80,6 +82,7 @@ Game.prototype.generatePlayerMissile = function(event){
 };
 
 Game.prototype.generateEnemyMissile = function () {
+	var game = this;
 	var enemyMissile = new EnemyMissile();
 	this.enemyMissiles.push(enemyMissile);
 	var canvas = document.getElementById("canvas");
@@ -105,6 +108,7 @@ Game.prototype.generateEnemyMissile = function () {
 	animate();
 
 	function animate() {
+		if (!game.running) return;
 	    if (t < points.length - 1) {
 	    	//slows down the animation 
 	    	var framesPerSecond = 10;
@@ -146,14 +150,14 @@ Game.prototype.checkExplosion = function(playerMissile) {
 		var radius = 40;
 			console.log(distanceBetween, radius)
 
-		if(distanceBetween < radius){
-			console.log('missile gone!!!!!!!!!')
+		if (distanceBetween < radius) {
+			this.running = false;
+			$('#canvas').css('background-color', 'red');
+			console.log('missile gone!!!!!!!!!');
 		}
 	};
 
 };
-
-
 
 function EnemyMissile () {
 	this.startPosX = Math.floor(Math.random() * (500 - 0 + 1)) + 0
