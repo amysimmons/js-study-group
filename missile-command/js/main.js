@@ -73,9 +73,9 @@ Game.prototype.generatePlayerMissile = function(event) {
 		}
 
 		ctx.closePath();
-		ctx.fillStyle="skyblue";
+		ctx.fillStyle="gold";
 		ctx.fill();
-		ctx.strokeStyle="lightgray";
+		ctx.strokeStyle="orangered";
 		ctx.lineWidth=3;
 		ctx.stroke()
 	}
