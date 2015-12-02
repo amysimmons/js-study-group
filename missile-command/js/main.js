@@ -169,7 +169,9 @@ App = {
 		    		requestAnimationFrame(animate);
 		    	}, 1000 / framesPerSecond);
 		    }else {
-				animateExplosion()	
+		    	var explosionZonePoints = App.calculateExplosionZone(playerMissile);
+				animateExplosion(explosionZonePoints);
+				App.checkExplosion(explosionZonePoints);   	
 			}	    
 		    // draw a line segment from the last waypoint
 		    // to the current waypoint
@@ -182,8 +184,7 @@ App = {
 		   	t++;
 		}
 
-		function animateExplosion() {
-	    	var explosionZonePoints = App.calculateExplosionZone(playerMissile);
+		function animateExplosion(explosionZonePoints) {
 	    	ctx.beginPath();
 			ctx.moveTo(explosionZonePoints[0].x,explosionZonePoints[0].y);
 			for(var i=1;i<explosionZonePoints.length;i++){
@@ -197,6 +198,14 @@ App = {
 			ctx.lineWidth=3;
 			ctx.stroke()
 		}
+
+		//
+	},
+
+	checkExplosion: function(explosionZonePoints){
+
+		debugger
+
 	},
 
 	startGame: function(){
