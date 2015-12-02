@@ -1,4 +1,10 @@
 App = {
+
+	game: function(){
+		this.level = 1,
+		this.score = 0
+	},
+
 	enemyMissile: function() {
 		this.startPosX = Math.floor(Math.random() * (500 - 0 + 1)) + 0,
 		this.startPosY = 0,
@@ -158,7 +164,7 @@ App = {
 
 		    if (t < points.length - 1) {
 		    	//slows down the animation 
-		    	var framesPerSecond = 10;
+		    	var framesPerSecond = 1000;
 			   	setTimeout(function(){
 		    		requestAnimationFrame(animate);
 		    	}, 1000 / framesPerSecond);
@@ -193,6 +199,11 @@ App = {
 		}
 	},
 
+	startGame: function(){
+		var game = new App.game();
+		_.times(game.level * 4, App.generateEnemyMissile);
+	},
+
 	initEvents: function(){
 	    $('body').on('mousedown', '#canvas', function(event) {
 	      App.generatePlayerMissile(event);
@@ -201,5 +212,5 @@ App = {
 }
 
 App.initEvents();
-App.generateEnemyMissile();
+App.startGame();
 
